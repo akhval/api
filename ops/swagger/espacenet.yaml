@@ -19,6 +19,7 @@ paths:
       description: The Moses endpoint acts like transparent proxy proviting authorization only facilities and returns information from Moses exactly the same way it presents there.
       produces:
         - application/json
+        - text/plain
       parameters:
         - name: path
           in: path
@@ -73,6 +74,7 @@ paths:
         - application/json
       produces:
         - application/json
+        - text/plain
       parameters:
         - name: path
           in: path
