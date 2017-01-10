@@ -40,15 +40,32 @@ paths:
           format: string           
       tags:
         - Moses
+        - Proxy
       responses:
         200:
           description: A response
           schema:
             type: string
-        default:
-          description: Unexpected error
+        400:
+          description: Bad Request
           schema:
-            $ref: '#/definitions/Error'
+            $ref: '#/definitions/Error'            
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'            
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'            
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'  
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'              
     post:
       summary: Proxy all moses POST requests
       description: The Moses endpoint acts like transparent proxy proviting authorization only facilities and returns information from Moses exactly the same way it presents there.
@@ -84,23 +101,33 @@ paths:
           
       tags:
         - Moses
+        - Proxy
       responses:
         200:
           description: A response
           schema:
             type: string
-        default:
-          description: Unexpected error
+        400:
+          description: Bad Request
           schema:
             $ref: '#/definitions/Error'            
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'            
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'            
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'  
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'              
 definitions:
   Error:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
-      message:
-        type: string
-      fields:
-        type: string
+    type: string
+
