@@ -5,21 +5,26 @@ info:
   description: New Espacenet OPS hosted services
   version: "3.3"
 # the domain of the service
-host: ops.epo.org
+host: ops-t.internal.epo.org
 # array of all schemes that your API supports
 schemes:
   - http
   - https
 # will be prefixed to all paths
-basePath: /3.3
+basePath: /3.2/rest-services
+produces:
+  - application/json
+  - text/plain
+  - image/tiff
+  - image/png
+  - application/pdf
+  - application/zip   
+  - application/octet-stream
 paths:
   /moses/{path}:
     get:
       summary: Proxy all moses GET requests
       description: The Moses endpoint acts like transparent proxy proviting authorization only facilities and returns information from Moses exactly the same way it presents there.
-      produces:
-        - application/json
-        - text/plain
       parameters:
         - name: path
           in: path
@@ -72,9 +77,6 @@ paths:
       description: The Moses endpoint acts like transparent proxy proviting authorization only facilities and returns information from Moses exactly the same way it presents there.
       consumes:
         - application/json
-      produces:
-        - application/json
-        - text/plain
       parameters:
         - name: path
           in: path
@@ -132,4 +134,3 @@ paths:
 definitions:
   Error:
     type: string
-
