@@ -3,7 +3,7 @@ swagger: '2.0'
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
-  version: "3.3"
+  version: "3.3.2"
 # the domain of the service
 host: ops-t.internal.epo.org
 # array of all schemes that your API supports
@@ -12,19 +12,19 @@ schemes:
   - https
 # will be prefixed to all paths
 basePath: /3.2/rest-services
-produces:
-  - application/json
-  - text/plain
-  - image/tiff
-  - image/png
-  - application/pdf
-  - application/zip   
-  - application/octet-stream
 paths:
   /images/{path}:
     get:
       summary: Proxy all moses GET requests
       description: The Moses endpoint acts like transparent proxy proviting authorization only facilities and returns information from Moses exactly the same way it presents there.
+      produces:
+        - application/json
+        - text/plain
+        - image/tiff
+        - image/png
+        - application/pdf
+        - application/zip   
+        - application/octet-stream
       parameters:
         - name: path
           in: path
@@ -75,6 +75,14 @@ paths:
     post:
       summary: Proxy all moses POST requests
       description: The Moses endpoint acts like transparent proxy proviting authorization only facilities and returns information from Moses exactly the same way it presents there.
+      produces:
+        - application/json
+        - text/plain
+        - image/tiff
+        - image/png
+        - application/pdf
+        - application/zip   
+        - application/octet-stream
       consumes:
         - application/json
       parameters:
@@ -131,6 +139,39 @@ paths:
           description: Service Unavailable
           schema:
             $ref: '#/definitions/Error'              
+  /query/convert:
+    get:
+      description: Converts a query string of type CQL into PQL format.
+      produces:
+        - application/json
+        - application/xml
+        - text/plain
+      parameters:
+        - name: q
+          in: query
+          description: Query string that should be evaluated and converted
+          required: true
+          type: string
+        - name: inputFormat
+          in: query
+          description: Input format of the query string.
+          required: true
+          type: string
+          enum: [cql]  
+        - name: outputFormat
+          in: query
+          description: Output format the query should be converted into. See known formats.
+          required: true
+          type: string
+          enum: [pql]
+      tags:
+        - Query
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: string
+
 definitions:
   Error:
     type: string
