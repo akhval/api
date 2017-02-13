@@ -13,43 +13,42 @@ schemes:
 # will be prefixed to all paths
 basePath: /3.2/rest-services
 paths:
-  /images/{path}:
+  /images/infos/{countryCode}/{pubNumber}/{kindCode}:
     get:
-      summary: Proxy all moses GET requests
-      description: The Moses endpoint acts like transparent proxy proviting authorization only facilities and returns information from Moses exactly the same way it presents there.
+      summary: INFOS GET DOCUMENT METADATA
+      description: Get information on a publication.
       produces:
         - application/json
-        - text/plain
-        - image/tiff
-        - image/png
-        - application/pdf
-        - application/zip   
-        - application/octet-stream
       parameters:
-        - name: path
+        - name: countryCode
           in: path
-          description: Any Moses path parameter
+          description: The country code of the publication.
           required: true
           type: string
           format: string
-        - name: query
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+          format: string
+        - name: fields
           in: query
-          description: Any Moses query parameter
+          description: The comma-separated list of document metadata fields to include in the response.
           required: false
           type: string
-          format: string 
-        - name: header
-          in: header
-          description: Any Moses header parameter
-          required: false
-          type: string
-          format: string           
+          format: string
       tags:
         - Images
-        - Proxy
       responses:
         200:
-          description: A response
+          description: The response body contains a DocumentMetadata resource in JSON format. The JSON can be empty if none of the fields requested exist.
           schema:
             type: string
         400:
@@ -72,53 +71,424 @@ paths:
           description: Service Unavailable
           schema:
             $ref: '#/definitions/Error'              
+            
+  /images/infos/{countryCode}/{pubNumber}/{kindCode}/mapping:
+    get:
+      summary: INFOS GET DOCUMENT MAPPING
+      description: Get the list of page ranges (start, end) for each available subpart in a publication.
+      produces:
+        - application/json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+          format: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+          format: string
+      tags:
+        - Images
+      responses:
+        200:
+          description: The response body contains the "mapping" part of a DocumentMetadata resource in JSON format.
+          schema:
+            type: string
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'            
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'            
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'            
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'  
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'              
+
+  /images/infos/{countryCode}/{pubNumber}/{kindCode}/pages/{pageNumber}:
+    get:
+      summary: INFOS GET PAGE METADATA
+      description: Get the list of page ranges (start, end) for each available subpart in a publication.
+      produces:
+        - application/json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: pageNumber
+          in: path
+          description: The number of the page to get information on.
+          required: true
+          type: number
+          format: string
+        - name: fields
+          in: query
+          description: The comma-separated list of document metadata fields to include in the response.
+          required: false
+          type: string
+      tags:
+        - Images
+      responses:
+        200:
+          description: The response body contains a PageMetadata resource in JSON format. The JSON can be empty if none of the fields requested exist.
+          schema:
+            type: string
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'            
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'            
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'            
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'  
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'              
+
+  /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/pages/{pageNumber}:
+    get:
+      summary: DOCUMENTS GET PAGE
+      description: Download one page of a publication in PDF, TIFF or PNG format.
+      produces:
+        - application/pdf
+        - image/tiff
+        - image/png        
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: format
+          in: path
+          description: The output format desired for the page.
+          required: true
+          type: string
+          enum: [pdf,tiff,png]            
+        - name: pageNumber
+          in: path
+          description: The number of the page to get information on.
+          required: true
+          type: number
+          format: string
+        - name: scale
+          in: query
+          description:  "The percentage for resizing the page. (Default: 100)"
+          required: false
+          type: number
+        - name: rotate
+          in: query
+          description:  "Whether to rotate the page if it is not properly oriented. (Default: false for TIFF/PNG, true for PDF)"
+          required: false
+          type: boolean
+
+      tags:
+        - Images
+      responses:
+        200:
+          description: The response body contains the content of the downloaded page in the format supplied.
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'            
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'            
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'            
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'  
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'              
+
+  /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/pages:
+    get:
+      summary: DOCUMENTS GET PAGES
+      description: Download either a range of pages, or all the pages of a publication in PDF, TIFF or PNG format.
+      produces:
+        - application/pdf
+        - application/zip
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: format
+          in: path
+          description: The output format desired for the page.
+          required: true
+          type: string
+          enum: [pdf,tiff,png]            
+        - name: start
+          in: query
+          description:  "The number of the first page to download. (Default: 1)"
+          required: false
+          type: number
+        - name: end
+          in: query
+          description:  "The number of the last page to download. By default, it is set to the number of the last page of the publication."
+          required: false
+          type: number
+        - name: scale
+          in: query
+          description:  "The percentage for resizing the page. (Default: 100)"
+          required: false
+          type: number
+        - name: rotate
+          in: query
+          description:  "Whether to rotate the page if it is not properly oriented. (Default: false for TIFF/PNG, true for PDF)"
+          required: false
+          type: boolean
+      tags:
+        - Images
+      responses:
+        200:
+          description: "The response body contains the content of the downloaded pages."
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'            
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'            
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'            
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'  
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'          
+
+  /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/subparts:
+    get:
+      summary: "DOCUMENTS GET SUBPARTS"
+      description: "Download either a selection of subparts, or all the available subparts of a publication in PDF, TIFF or PNG format"
+      produces:
+        - application/pdf
+        - application/zip
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: format
+          in: path
+          description: The output format desired for the page.
+          required: true
+          type: string
+          enum: [pdf,tiff,png]            
+        - name: subpart
+          in: query
+          description:  "The comma-separated list of subparts to download. By default, the list is empty and all available subparts are returned. (Default: [])"
+          required: false
+          type: number
+        - name: scale
+          in: query
+          description:  "The percentage for resizing the page. (Default: 100)"
+          required: false
+          type: number
+        - name: rotate
+          in: query
+          description:  "Whether to rotate the page if it is not properly oriented. (Default: false for TIFF/PNG, true for PDF)"
+          required: false
+          type: boolean
+      tags:
+        - Images
+      responses:
+        200:
+          description: "The response body contains the content of the downloaded subparts"
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'            
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'            
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'            
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'  
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error' 
+
+  /images/indexes/pub-ids/entries/{countryCode}/{pubNumber}/{kindCode}:
+    get:
+      summary: "PUB-IDS: GET PUB-ID ENTRIES FROM SINGLE"
+      description: "Query for a list of indexed publications that match a single pub-id."
+      produces:
+        - application/json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: pubIdOnly
+          in: query
+          description:  "false: Each match will contain the pub-id and the other properties indexed for that publication (pubDate and docId).(default) true: Each match will contain only the pub-id."
+          required: false
+          type: boolean
+        - name: infos
+          in: query
+          description:  "The comma-separated list of document metadata fields to embed inevery match. This can be used to retrieve information on each publication that matches the query. By default, metadata fields are not embedded. Use infos=all to embed all the metadata fields available."
+          required: false
+          type: string
+      tags:
+        - Images
+      responses:
+        200:
+          description: "The response body contains the content of the downloaded subparts"
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'            
+        401:
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/Error'            
+        404:
+          description: Not Found
+          schema:
+            $ref: '#/definitions/Error'            
+        500:
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'  
+        503:
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error' 
+
+  /images/indexes/pub-ids/entries/list:
     post:
-      summary: Proxy all moses POST requests
-      description: The Moses endpoint acts like transparent proxy proviting authorization only facilities and returns information from Moses exactly the same way it presents there.
+      summary: "PUB-IDS: GET PUB-ID ENTRIES FROM LIST"
+      description: "Query for a list of indexed publications that match multiple pub-ids."
       produces:
         - application/json
-        - text/plain
-        - image/tiff
-        - image/png
-        - application/pdf
-        - application/zip   
-        - application/octet-stream
-      consumes:
-        - application/json
       parameters:
-        - name: path
-          in: path
-          description: Any Moses path parameter
-          required: true
-          type: string
-          format: string
-        - name: query
-          in: query
-          description: Any Moses query parameter
-          required: false
-          type: string
-          format: string 
-        - name: header
-          in: header
-          description: Any Moses header parameter
-          required: false
-          type: string
-          format: string  
-        - name: body
+       - name: body
           in: body
-          description: Any Moses post payload
+          description: "In the request body, supply a PubIdQueryList resource in JSON format"
           required: true
-          schema:
-            type: string
-          
+          type: string
+       - name: pubIdOnly
+          in: query
+          description:  "false: Each match will contain the pub-id and the other properties indexed for that publication (pubDate and docId).(default) true: Each match will contain only the pub-id."
+          required: false
+          type: boolean
+        - name: infos
+          in: query
+          description:  "The comma-separated list of document metadata fields to embed inevery match. This can be used to retrieve information on each publication that matches the query. By default, metadata fields are not embedded. Use infos=all to embed all the metadata fields available."
+          required: false
+          type: string
       tags:
         - Images
-        - Proxy
       responses:
         200:
-          description: A response
-          schema:
-            type: string
+          description: "The response body contains the content of the downloaded subparts"
         400:
           description: Bad Request
           schema:
@@ -138,7 +508,9 @@ paths:
         503:
           description: Service Unavailable
           schema:
-            $ref: '#/definitions/Error'              
+            $ref: '#/definitions/Error' 
+
+
   /query/convert:
     get:
       description: Converts a query string of type CQL into PQL format.
