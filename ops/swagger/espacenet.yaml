@@ -469,21 +469,25 @@ paths:
       produces:
         - application/json
       parameters:
-       - name: body
-          in: body
-          description: "In the request body, supply a PubIdQueryList resource in JSON format"
-          required: true
-          type: string
-       - name: pubIdOnly
+        - name: pubIdOnly
           in: query
-          description:  "false: Each match will contain the pub-id and the other properties indexed for that publication (pubDate and docId).(default) true: Each match will contain only the pub-id."
+          description: "false: Each match will contain the pub-id and the other properties indexed for that publication (pubDate and docId). (default). true: Each match will contain only the pub-id."
           required: false
           type: boolean
+          default: false
         - name: infos
           in: query
-          description:  "The comma-separated list of document metadata fields to embed inevery match. This can be used to retrieve information on each publication that matches the query. By default, metadata fields are not embedded. Use infos=all to embed all the metadata fields available."
+          description: "The comma-separated list of document metadata fields to embed in every match. This can be used to retrieve information on each publication that matches each query. By default, metadata fields are not embedded. Use infos=all to embed all the metadata fields available."
           required: false
           type: string
+          default: "all"          
+        - name: body
+          in: body
+          description: "In the request body, supply a PubIdQueryList resource in JSON format. Duplicate queries (i.e. queries with the same pubId field) are allowed, and each query from duplicate is treated independently."
+          required: false
+          schema:
+            type: string
+
       tags:
         - Images
       responses:
@@ -546,4 +550,12 @@ paths:
 
 definitions:
   Error:
-    type: string
+    type: object
+    properties:
+      code:
+        type: string    
+      message:
+        type: string    
+    
+    xml:
+      name: fault    
