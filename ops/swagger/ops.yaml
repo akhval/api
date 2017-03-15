@@ -1,0 +1,2111 @@
+swagger: '2.0'
+info:
+  title: OPS Services API
+  description: OPS services
+  version: "3.2"
+# the domain of the service
+host: ops2-p.internal.epo.org
+# array of all schemes that your API supports
+schemes:
+  - http
+  - https
+# will be prefixed to all paths
+basePath: /3.2
+paths:
+  /rest-services/published-data/search:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: Range
+          in: query
+          description: Range of elements were requested
+          required: true
+          type: string
+          format: string
+          default: 1-25
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+        - name: q
+          in: query
+          description: Search query
+          required: true
+          type: string
+          format: string
+          default: ti=plastic
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/{number}/biblio:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/biblio:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/{number}/abstract:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/abstract:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/{number}/full-cycle:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/full-cycle:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/{number}/fulltext:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/fulltext:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/{number}/description:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/description:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/{number}/claims:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/claims:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/{number}/equivalents:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/equivalents:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/{number}/images:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: docdb
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP.1000000.A1
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/{type}/{format}/images:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: docdb
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/images/{image-id}:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/pdf
+      parameters: 
+        - name: image-id
+          in: path
+          description: Image Id
+          required: true
+          type: string
+          format: string
+          default: EP/1000000/A1/fullimage
+        - name: Range
+          in: query
+          description: Page number
+          required: true
+          type: integer
+          format: string
+          default: 1
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/pdf
+          enum: [application/pdf, application/tiff, image/png]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/published-data/images:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Published
+      produces: 
+        - application/pdf
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: Range
+          in: query
+          description: Page number
+          required: true
+          type: integer
+          format: string
+          default: 1
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/pdf
+          enum: [application/pdf, application/tiff, image/png]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/family/{type}/{format}/{number}:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Family
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/family/{type}/{format}:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Family
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/family/{type}/{format}/{number}/biblio:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Family
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/family/{type}/{format}/biblio:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Family
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/family/{type}/{format}/{number}/legal:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Family
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/family/{type}/{format}/legal:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Family
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/legal/{type}/{format}/{number}:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Legal
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/legal/{type}/{format}:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Legal
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, priority, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [docdb, epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/search:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: Range
+          in: query
+          description: Range of elements were requested, e.g. 1-20
+          required: true
+          type: string
+          format: string
+          default: 1-25
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+        - name: q
+          in: query
+          description: Search query
+          required: true
+          type: string
+          format: string
+          default: ti=plastic
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/{type}/{format}/{number}/biblio:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/{type}/{format}/biblio:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/{type}/{format}/{number}/events:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/{type}/{format}/events:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/{type}/{format}/{number}/procedural-steps:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/{type}/{format}/procedural-steps:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/{type}/{format}/{number}/upp:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [epodoc]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: EP1000000
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/register/{type}/{format}/upp:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Register
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: publication
+          enum: [application, publication]
+        - name: format
+          in: path
+          description: Reference format
+          required: true
+          type: string
+          format: string
+          default: epodoc
+          enum: [epodoc]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/classification/cpc/{class}:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Classification
+      produces: 
+        - application/xml
+      parameters: 
+        - name: class
+          in: path
+          description: CPC class name
+          required: true
+          type: string
+          format: string
+          default: A01B1/00
+        - name: ancestors
+          in: query
+          description: Ancestors flag
+          required: true
+          type: boolean
+          format: string
+          enum: [false, true]
+        - name: navigation
+          in: query
+          description: Navigation flag
+          required: true
+          type: boolean
+          format: string
+          enum: [false, true]
+        - name: depth
+          in: query
+          description: Classification tree traversing depth
+          required: true
+          type: string
+          format: string
+          enum: [0, 1, 2, 3, all]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/classification/cpc:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Classification
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/classification/cpc/media/{media-name}:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Classification
+      produces: 
+        - image/gif
+      parameters: 
+        - name: media-name
+          in: path
+          description: CPC media resource name
+          required: true
+          type: string
+          format: string
+          default: 1000.gif
+        - name: attachment
+          in: query
+          description: Attachment/inline content disposition indicator. Inline is a default value.
+          required: true
+          type: boolean
+          format: string
+          enum: [false, true]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: image/gif
+          enum: [image/gif]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/classification/cpc/search:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Classification
+      produces: 
+        - application/xml
+      parameters: 
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+        - name: q
+          in: query
+          description: Search query
+          required: true
+          type: string
+          format: string
+          default: plastic
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/classification/map/{input-format}/{class}/{output-format}:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Classification
+      produces: 
+        - application/xml
+      parameters: 
+        - name: input-format
+          in: path
+          description: Input classification conversion format
+          required: true
+          type: string
+          format: string
+          default: ecla
+          enum: [cpc, ecla]
+        - name: class
+          in: path
+          description: some description
+          required: true
+          type: string
+          format: string
+          default: A01B1/00
+        - name: output-format
+          in: path
+          description: Output classification conversion format
+          required: true
+          type: string
+          format: string
+          default: cpc
+          enum: [cpc, ecla, ipc]
+        - name: additional
+          in: query
+          description: Invention/Additional resolution indicator. Invention is default value.
+          required: true
+          type: boolean
+          format: string
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/number-service/{type}/{input-format}/{number}/{output-format}:
+    get:
+      summary: some summary
+      description: some description
+      tags:
+        - Number
+      produces: 
+        - application/xml
+      parameters: 
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: application
+          enum: [application, priority, publication]
+        - name: input-format
+          in: path
+          description: Input reference format
+          required: true
+          type: string
+          format: string
+          default: original
+          enum: [docdb, original]
+        - name: number
+          in: path
+          description: Reference number
+          required: true
+          type: string
+          format: string
+          default: US.(05/948,554).19781004
+        - name: output-format
+          in: path
+          description: Output reference format
+          required: true
+          type: string
+          format: string
+          default: docdb
+          enum: [docdb, epodoc, original]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+  /rest-services/number-service/{type}/{input-format}/{output-format}:
+    post:
+      summary: some summary
+      description: some description
+      tags:
+        - Number
+      produces: 
+        - application/xml
+      parameters: 
+        - name: body
+          in: body
+          description: Request payload
+          required: true
+          schema:
+            $ref: '#/definitions/Body'
+        - name: type
+          in: path
+          description: Reference type
+          required: true
+          type: string
+          format: string
+          default: application
+          enum: [application, priority, publication]
+        - name: input-format
+          in: path
+          description: Input reference format
+          required: true
+          type: string
+          format: string
+          default: original
+          enum: [docdb, epodoc, original]
+        - name: output-format
+          in: path
+          description: Output reference format
+          required: true
+          type: string
+          format: string
+          default: docdb
+          enum: [docdb, epodoc, original]
+        - name: Accept
+          in: header
+          description: Expected media type
+          required: true
+          type: string
+          format: string
+          default: application/xml
+          enum: [application/js, application/json, application/xml]
+      responses: 
+        200: 
+          description: some description
+          schema: 
+            type: string
+        default: 
+          description: Error
+          schema: 
+            $ref: '#/definitions/Error'
+
+definitions:
+  Body:
+    type: array
+    items:
+      type: string
+        
+  Error:
+    type: object
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+
+    xml:
+      name: fault
