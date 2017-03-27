@@ -1,5 +1,6 @@
 # this is a prototype of the new Espacent in OPS API in YAML format
 swagger: '2.0'
+
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
@@ -48,29 +49,13 @@ paths:
         - Images
       responses:
         200:
-          description: The response body contains a DocumentMetadata resource in JSON format. The JSON can be empty if none of the fields requested exist.
+          description: "The response body contains a DocumentMetadata resource in JSON format. The JSON can be empty if none of the fields requested exist."
           schema:
             type: string
-        400:
-          description: Bad Request
+        default:
+          description: Error
           schema:
-            $ref: '#/definitions/Error'            
-        401:
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/Error'            
-        404:
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'            
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'  
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error'              
+            $ref: "#/definitions/ErrorResponse"
             
   /images/infos/{countryCode}/{pubNumber}/{kindCode}/mapping:
     get:
@@ -101,29 +86,13 @@ paths:
         - Images
       responses:
         200:
-          description: The response body contains the "mapping" part of a DocumentMetadata resource in JSON format.
+          description: "The response body contains the \"mapping\" part of a DocumentMetadata resource in JSON format."
           schema:
             type: string
-        400:
-          description: Bad Request
+        default:
+          description: Error
           schema:
-            $ref: '#/definitions/Error'            
-        401:
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/Error'            
-        404:
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'            
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'  
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error'              
+            $ref: "#/definitions/ErrorResponse"
 
   /images/infos/{countryCode}/{pubNumber}/{kindCode}/pages/{pageNumber}:
     get:
@@ -165,26 +134,10 @@ paths:
           description: The response body contains a PageMetadata resource in JSON format. The JSON can be empty if none of the fields requested exist.
           schema:
             type: string
-        400:
-          description: Bad Request
+        default:
+          description: Error
           schema:
-            $ref: '#/definitions/Error'            
-        401:
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/Error'            
-        404:
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'            
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'  
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error'              
+            $ref: "#/definitions/ErrorResponse"
 
   /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/pages/{pageNumber}:
     get:
@@ -232,32 +185,17 @@ paths:
           description:  "Whether to rotate the page if it is not properly oriented. (Default: false for TIFF/PNG, true for PDF)"
           required: false
           type: boolean
-
       tags:
         - Images
       responses:
         200:
           description: The response body contains the content of the downloaded page in the format supplied.
-        400:
-          description: Bad Request
           schema:
-            $ref: '#/definitions/Error'            
-        401:
-          description: Unauthorized
+            type: string
+        default:
+          description: Error
           schema:
-            $ref: '#/definitions/Error'            
-        404:
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'            
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'  
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error'              
+            $ref: "#/definitions/ErrorResponse"
 
   /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/pages:
     get:
@@ -312,27 +250,13 @@ paths:
         - Images
       responses:
         200:
-          description: "The response body contains the content of the downloaded pages."
-        400:
-          description: Bad Request
+          description: Success
           schema:
-            $ref: '#/definitions/Error'            
-        401:
-          description: Unauthorized
+            type: string
+        default:
+          description: Error
           schema:
-            $ref: '#/definitions/Error'            
-        404:
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'            
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'  
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error'          
+            $ref: "#/definitions/ErrorResponse"
 
   /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/subparts:
     get:
@@ -383,26 +307,10 @@ paths:
       responses:
         200:
           description: "The response body contains the content of the downloaded subparts"
-        400:
-          description: Bad Request
+        default:
+          description: Error
           schema:
-            $ref: '#/definitions/Error'            
-        401:
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/Error'            
-        404:
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'            
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'  
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error' 
+            $ref: "#/definitions/ErrorResponse"
 
   /images/indexes/pub-ids/entries/{countryCode}/{pubNumber}/{kindCode}:
     get:
@@ -441,26 +349,10 @@ paths:
       responses:
         200:
           description: "The response body contains the content of the downloaded subparts"
-        400:
-          description: Bad Request
+        default:
+          description: Error
           schema:
-            $ref: '#/definitions/Error'            
-        401:
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/Error'            
-        404:
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'            
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'  
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error' 
+            $ref: "#/definitions/ErrorResponse"
 
   /images/indexes/pub-ids/entries/list:
     post:
@@ -493,27 +385,10 @@ paths:
       responses:
         200:
           description: "The response body contains the content of the downloaded subparts"
-        400:
-          description: Bad Request
+        default:
+          description: Error
           schema:
-            $ref: '#/definitions/Error'            
-        401:
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/Error'            
-        404:
-          description: Not Found
-          schema:
-            $ref: '#/definitions/Error'            
-        500:
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/Error'  
-        503:
-          description: Service Unavailable
-          schema:
-            $ref: '#/definitions/Error' 
-
+            $ref: "#/definitions/ErrorResponse"
 
   /query/convert:
     get:
@@ -543,13 +418,225 @@ paths:
       tags:
         - Query
       responses:
-        "200":
+        200:
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
+  /search:
+    get:
+      description: TODO (Link Elastic Custer with Connector) to generate the Response Objects Returns search results generated by BSS (Backend Search Services)
+      operationId: searchInElasticCluster
+      tags:
+        - Search
+      parameters:
+        - name: q
+          in: query
+          description: PQL marker query. Corresponds to multiple parameter instances instead of multiple values for a single instance q=markerQuery1&q=markerQuery2.
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi  
+          default:
+            - attachment
+        - name: maxNbResults
+          in: query
+          description: The number of similar results that should be returend
+          required: false
+          type: number
+          default: 10
+        - name: offset
+          in: query
+          description: The offset from which the results should be returned from. This is required for pagination
+          required: false
+          type: number
+          default: 0
+        - name: fields
+          in: query
+          description: The name of the fields that should be used to find similar content and that should be contained in the response
+          type: array
+          items:
+            type: string
+          required: false
+          default: [publications.wpi_abs_en,rep_abs_en,rep_ti_en,publications.abs_en,publications.ti_en]
+        - name: highlight
+          in: query
+          description: The name of fields in which matches should be highlighted
+          type: array
+          items:
+            type: string
+          required: false
+          default: [publications.wpi_abs_en,rep_abs_en,rep_ti_en,publications.abs_en,publications.ti_en]
+        - name: widgets
+          in: query
+          description: The name of widgets (factes) that should be provided in the response
+          type: array
+          items:
+            type: string
+          required: false
+          default: [buckets,dates,applicant,inventor,cpc,ipc,languages,markers,priorityDate,top-score]
+
+      responses:
+        200:
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/mlt:
+    post:
+      description: "The MoreLikeThis service enables to query for documents similar to a document in the result list/index or similar to a text snippet. It does this by using terms from the  provided document to find similar documents in the index."
+      operationId: moreLikeThis
+      produces:
+        - application/json
+      consumes:
+        - text/plain
+      parameters:
+        - name: text
+          in: body
+          description: Text snippet that should be used to find similar documents
+          required: false
+          schema:
+            type: string
+            default: 'The present invention relates to an image forming apparatus and method.'
+        - name: applicationNumber
+          in: query
+          description: Id of a reference document contained in the result list or search index.
+          required: false
+          type: string
+          default: "EP04024654"
+        - name: lang
+          in: query
+          description: The language of the text snippet
+          required: false
+          type: string
+          default: "en"
+        - name: maxNbResults
+          in: query
+          description: The number of similar results that should be returend
+          required: false
+          type: number
+          default: 10
+        - name: offset
+          in: query
+          description: The offset from which the results should be returned from. This is required for pagination
+          required: false
+          type: number
+          default: 0
+        - name: minDocFreq
+          in: query
+          description: The min frequency of a document that is to be returend
+          required: false
+          type: number
+          default: 10
+        - name: fields
+          in: query
+          description: The name of the fields that should be used to find similar content and that should be contained in the response
+          type: array
+          items:
+            type: string
+          required: false
+          default: [publications.wpi_abs_en,rep_abs_en,rep_ti_en,publications.abs_en,publications.ti_en]
+      tags:
+        - Search
+      responses:
+        200:
           description: Success
           schema:
             type: string
 
+  /search/highlight:
+    post:
+      description: "Highlight marker search queries given a free text, link or (TODO a JSON formatted patent application)"
+      operationId: highlight
+      consumes:
+        - text/plain
+        - application/json
+      parameters:
+        - name: link
+          in: query
+          description: A reference link to the patent application
+          required: false
+          type: string
+        - name: text
+          in: body
+          description: Array of text snippet that should be used for highlighting
+          required: false
+          schema:
+            type: string
+            default: The present invention relates to an image forming apparatus and method.
+        - name: field
+          in: query
+          description: The name of the fields that should be used to highlight the content and that should be contained in the response. Use this when referencing a document by link.
+          type: string
+          required: false
+        - name: q
+          in: query
+          description: PQL marker query. Comma separated array of queries.
+          required: true
+          collectionFormat: multi
+          type: array
+          default:
+            - and
+          items:
+            type: string
+        - name: strict
+          in: query
+          description: Whether or not use strict highlighting. Default value is ?True?
+          required: false
+          type: string
+          default: "true"
+      tags:
+        - Search
+      responses:
+        200:
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/figures:
+    post:
+      description: "Figures search"
+      consumes:
+        - application/json
+      operationId: searchFigures
+      parameters:
+          - in: body
+            name: body
+            required: false
+            schema:
+              type: string
+      produces:
+        - application/json
+
+      tags:
+        - Search
+      responses:
+        200:
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
 definitions:
-  Error:
+  ErrorResponse:
     type: object
     properties:
       code:

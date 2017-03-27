@@ -1,10 +1,10 @@
 swagger: '2.0'
 info:
   title: OPS Services API
-  description: OPS services
-  version: "3.2"
+  description: Open Patent Services
+  version: "3.2.3"
 # the domain of the service
-host: ops2-p.internal.epo.org
+host: ops.epo.org
 # array of all schemes that your API supports
 schemes:
   - http
@@ -14,13 +14,15 @@ basePath: /3.2
 paths:
   /rest-services/published-data/search:
     get:
-      summary: some summary
-      description: some description
+      summary: Bibliographic data search service
+      description: Bibliographic data search service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: Range
           in: query
           description: Range of elements were requested
@@ -43,25 +45,27 @@ paths:
           type: string
           format: string
           default: ti=plastic
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/{number}/biblio:
     get:
-      summary: some summary
-      description: some description
+      summary: Bibliographic data retrieval service
+      description: Bibliographic data retrieval service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -93,25 +97,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/biblio:
     post:
-      summary: some summary
-      description: some description
+      summary: Bibliographic data retrieval service
+      description: Bibliographic data retrieval service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -142,25 +148,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/{number}/abstract:
     get:
-      summary: some summary
-      description: some description
+      summary: Publications abstract service
+      description: Publications abstract service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -192,25 +200,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/abstract:
     post:
-      summary: some summary
-      description: some description
+      summary: Publications abstract service
+      description: Publications abstract service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -241,25 +251,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/{number}/full-cycle:
     get:
-      summary: some summary
-      description: some description
+      summary: Publications full cycle service
+      description: Publications full cycle service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -291,25 +303,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/full-cycle:
     post:
-      summary: some summary
-      description: some description
+      summary: Publications full cycle service
+      description: Publications full cycle service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -340,25 +354,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/{number}/fulltext:
     get:
-      summary: some summary
-      description: some description
+      summary: Fulltext inquiry service
+      description: Fulltext inquiry service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -390,25 +406,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/fulltext:
     post:
-      summary: some summary
-      description: some description
+      summary: Fulltext inquiry service
+      description: Fulltext inquiry service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -439,25 +457,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/{number}/description:
     get:
-      summary: some summary
-      description: some description
+      summary: Description retrieval service
+      description: Description retrieval service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -489,25 +509,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/description:
     post:
-      summary: some summary
-      description: some description
+      summary: Description retrieval service
+      description: Description retrieval service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -538,25 +560,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/{number}/claims:
     get:
-      summary: some summary
-      description: some description
+      summary: Claims retrieval service
+      description: Claims retrieval service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -588,25 +612,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/claims:
     post:
-      summary: some summary
-      description: some description
+      summary: Claims retrieval service
+      description: Claims retrieval service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -637,25 +663,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/{number}/equivalents:
     get:
-      summary: some summary
-      description: some description
+      summary: Equivalents retrieval service
+      description: Equivalents retrieval service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -687,25 +715,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/equivalents:
     post:
-      summary: some summary
-      description: some description
+      summary: Equivalents retrieval service
+      description: Equivalents retrieval service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -736,25 +766,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/{number}/images:
     get:
-      summary: some summary
-      description: some description
+      summary: Images inquiry service
+      description: Images inquiry service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -786,25 +818,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/{type}/{format}/images:
     post:
-      summary: some summary
-      description: some description
+      summary: Images inquiry service
+      description: Images inquiry service
       tags:
         - Published
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -835,25 +869,28 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/images/{image-id}:
     get:
-      summary: some summary
-      description: some description
+      summary: Images retrieval service
+      description: Images retrieval service
       tags:
         - Published
-      produces: 
+      produces:
         - application/pdf
-      parameters: 
+        - application/tiff
+        - image/png
+        - image/tiff
+      parameters:
         - name: image-id
           in: path
           description: Image Id
@@ -876,25 +913,28 @@ paths:
           format: string
           default: application/pdf
           enum: [application/pdf, application/tiff, image/png]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/published-data/images:
     post:
-      summary: some summary
-      description: some description
+      summary: Images retrieval service
+      description: Images retrieval service
       tags:
         - Published
-      produces: 
+      produces:
         - application/pdf
-      parameters: 
+        - application/tiff
+        - image/png
+        - image/tiff
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -916,25 +956,27 @@ paths:
           format: string
           default: application/pdf
           enum: [application/pdf, application/tiff, image/png]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/family/{type}/{format}/{number}:
     get:
-      summary: some summary
-      description: some description
+      summary: Family retrieval service
+      description: Family retrieval service
       tags:
         - Family
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -966,25 +1008,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/family/{type}/{format}:
     post:
-      summary: some summary
-      description: some description
+      summary: Family retrieval service
+      description: Family retrieval service
       tags:
         - Family
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1015,25 +1059,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/family/{type}/{format}/{number}/biblio:
     get:
-      summary: some summary
-      description: some description
+      summary: Family + biblio retrieval service
+      description: Family + biblio retrieval service
       tags:
         - Family
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -1065,25 +1111,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/family/{type}/{format}/biblio:
     post:
-      summary: some summary
-      description: some description
+      summary: Family + biblio retrieval service
+      description: Family + biblio retrieval service
       tags:
         - Family
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1114,25 +1162,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/family/{type}/{format}/{number}/legal:
     get:
-      summary: some summary
-      description: some description
+      summary: Family + biblio retrieval service
+      description: Family + biblio retrieval service
       tags:
         - Family
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -1164,25 +1214,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/family/{type}/{format}/legal:
     post:
-      summary: some summary
-      description: some description
+      summary: Family + biblio retrieval service
+      description: Family + biblio retrieval service
       tags:
         - Family
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1213,25 +1265,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/legal/{type}/{format}/{number}:
     get:
-      summary: some summary
-      description: some description
+      summary: Legal data retrieval service
+      description: Legal data retrieval service
       tags:
         - Legal
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -1263,25 +1317,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/legal/{type}/{format}:
     post:
-      summary: some summary
-      description: some description
+      summary: Legal data retrieval service
+      description: Legal data retrieval service
       tags:
         - Legal
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1312,25 +1368,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/search:
     get:
-      summary: some summary
-      description: some description
+      summary: Register search service
+      description: Register search service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: Range
           in: query
           description: Range of elements were requested, e.g. 1-20
@@ -1353,25 +1411,27 @@ paths:
           type: string
           format: string
           default: ti=plastic
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/{type}/{format}/{number}/biblio:
     get:
-      summary: some summary
-      description: some description
+      summary: Register retrieval service
+      description: Register retrieval service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -1403,25 +1463,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/{type}/{format}/biblio:
     post:
-      summary: some summary
-      description: some description
+      summary: Register retrieval service
+      description: Register retrieval service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1452,25 +1514,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/{type}/{format}/{number}/events:
     get:
-      summary: some summary
-      description: some description
+      summary: Register events service
+      description: Register events service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -1502,25 +1566,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/{type}/{format}/events:
     post:
-      summary: some summary
-      description: some description
+      summary: Register events service
+      description: Register events service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1551,25 +1617,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/{type}/{format}/{number}/procedural-steps:
     get:
-      summary: some summary
-      description: some description
+      summary: Register procedural steps service
+      description: Register procedural steps service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -1601,25 +1669,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/{type}/{format}/procedural-steps:
     post:
-      summary: some summary
-      description: some description
+      summary: Register procedural steps service
+      description: Register procedural steps service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1650,25 +1720,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/{type}/{format}/{number}/upp:
     get:
-      summary: some summary
-      description: some description
+      summary: Register unitary patent service
+      description: Register unitary patent service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -1700,25 +1772,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/register/{type}/{format}/upp:
     post:
-      summary: some summary
-      description: some description
+      summary: Register unitary patent service
+      description: Register unitary patent service
       tags:
         - Register
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1749,25 +1823,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/classification/cpc/{class}:
     get:
-      summary: some summary
-      description: some description
+      summary: Classification schema service
+      description: Classification schema service
       tags:
         - Classification
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: class
           in: path
           description: CPC class name
@@ -1804,25 +1880,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/classification/cpc:
     post:
-      summary: some summary
-      description: some description
+      summary: Classification schema service
+      description: Classification schema service
       tags:
         - Classification
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -1837,25 +1915,25 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/classification/cpc/media/{media-name}:
     get:
-      summary: some summary
-      description: some description
+      summary: Classification media retrieval service
+      description: Classification media retrieval service
       tags:
         - Classification
-      produces: 
+      produces:
         - image/gif
-      parameters: 
+      parameters:
         - name: media-name
           in: path
           description: CPC media resource name
@@ -1878,25 +1956,27 @@ paths:
           format: string
           default: image/gif
           enum: [image/gif]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/classification/cpc/search:
     get:
-      summary: some summary
-      description: some description
+      summary: Classification statistics search service
+      description: Classification statistics search service
       tags:
         - Classification
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: Accept
           in: header
           description: Expected media type
@@ -1912,25 +1992,27 @@ paths:
           type: string
           format: string
           default: plastic
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/classification/map/{input-format}/{class}/{output-format}:
     get:
-      summary: some summary
-      description: some description
+      summary: Classification mapping service
+      description: Classification mapping service
       tags:
         - Classification
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: input-format
           in: path
           description: Input classification conversion format
@@ -1968,25 +2050,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/number-service/{type}/{input-format}/{number}/{output-format}:
     get:
-      summary: some summary
-      description: some description
+      summary: Number service
+      description: Number service
       tags:
         - Number
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: type
           in: path
           description: Reference type
@@ -2026,25 +2110,27 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
   /rest-services/number-service/{type}/{input-format}/{output-format}:
     post:
-      summary: some summary
-      description: some description
+      summary: Number service
+      description: Number service
       tags:
         - Number
-      produces: 
+      produces:
+        - application/javascript
+        - application/json
         - application/xml
-      parameters: 
+      parameters:
         - name: body
           in: body
           description: Request payload
@@ -2083,14 +2169,14 @@ paths:
           format: string
           default: application/xml
           enum: [application/js, application/json, application/xml]
-      responses: 
-        200: 
+      responses:
+        200:
           description: some description
-          schema: 
+          schema:
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
+          schema:
             $ref: '#/definitions/Error'
 
 definitions:
@@ -2098,7 +2184,7 @@ definitions:
     type: array
     items:
       type: string
-        
+
   Error:
     type: object
     properties:
