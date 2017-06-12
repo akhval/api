@@ -4,7 +4,7 @@ swagger: '2.0'
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
-  version: "3.2.2"
+  version: "3.2.3"
 # the domain of the service
 # If host is not specified, it is assumed to be the same host where the API documentation is being served.
 # host: ops-t.internal.epo.org
@@ -441,7 +441,7 @@ paths:
       description: Highlight marker search queries given a free text, link or (TODO a JSON formatted patent application)
       operationId: highlight
       tags:
-        - C.1 Search (internal)
+        - Search
       consumes: [
         "text/plain",
         "application/json"
