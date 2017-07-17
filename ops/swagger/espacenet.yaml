@@ -22,7 +22,7 @@ paths:
       summary: Links builder
       description: Constructs Espacenet external links
       produces:
-        - application/json
+        - application/hal+json
       parameters:
         - name: countryCode
           in: path
