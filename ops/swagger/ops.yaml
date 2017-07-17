@@ -1,11 +1,15 @@
 # this is a prototype of the new Espacent in OPS API in YAML format
 swagger: '2.0'
+
 info:
-  title: OPS Services API
-  description: Open Patent Services
+  title: OPS Espacenet Services API
+  description: New Espacenet OPS hosted services
   version: "3.2.4"
 # the domain of the service
-host: ops.epo.org
+# If host is not specified, it is assumed to be the same host where the API documentation is being served.
+host: ops-t.internal.epo.org
+# host: ops-i.epo.org
+# host: ops2-i.internal.epo.org
 # array of all schemes that your API supports
 schemes:
   - http
@@ -13,1880 +17,1698 @@ schemes:
 # will be prefixed to all paths
 basePath: /3.2/rest-services
 paths:
-  /published-data/search:
+  /links/{countryCode}/{pubNumber}/{kindCode}:
     get:
-      summary: Bibliographic data search service
-      description: Bibliographic data search service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: Range
+      summary: Links builder
+      description: Constructs Espacenet external links
+      produces:
+        - application/hal+json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+          format: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+          format: string
+        - name: locale
           in: query
-          description: Range of elements were requested
+          description: Document locale
+          required: false
+          type: string
+          format: string
+      tags:
+        - Link
+      responses:
+        200:
+          description: "The response body contains list of links in hal+json format."
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /images/infos/{countryCode}/{pubNumber}/{kindCode}:
+    get:
+      summary: INFOS GET DOCUMENT METADATA
+      description: Get information on a publication.
+      produces:
+        - application/json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
           required: true
           type: string
           format: string
-          default: 1-25
-        - name: q
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+          format: string
+        - name: fields
           in: query
-          description: Search query
-          required: true
+          description: The comma-separated list of document metadata fields to include in the response.
+          required: false
           type: string
           format: string
-          default: ti=plastic
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/{number}/biblio:
-    get:
-      summary: Bibliographic data retrieval service
-      description: Bibliographic data retrieval service
       tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/biblio:
-    post:
-      summary: Bibliographic data retrieval service
-      description: Bibliographic data retrieval service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
+        - Images
+      responses:
+        200:
+          description: "The response body contains a DocumentMetadata resource in JSON format. The JSON can be empty if none of the fields requested exist."
           schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/{number}/abstract:
-    get:
-      summary: Publications abstract service
-      description: Publications abstract service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/abstract:
-    post:
-      summary: Publications abstract service
-      description: Publications abstract service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
           schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/{number}/full-cycle:
+            $ref: "#/definitions/ErrorResponse"
+            
+  /images/infos/{countryCode}/{pubNumber}/{kindCode}/mapping:
     get:
-      summary: Publications full cycle service
-      description: Publications full cycle service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
+      summary: INFOS GET DOCUMENT MAPPING
+      description: Get the list of page ranges (start, end) for each available subpart in a publication.
+      produces:
         - application/json
-        - application/xml
-      parameters: 
-        - name: type
+      parameters:
+        - name: countryCode
           in: path
-          description: Reference type
+          description: The country code of the publication.
           required: true
           type: string
           format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
+        - name: pubNumber
           in: path
-          description: Reference format
+          description: The number of the publication.
           required: true
           type: string
           format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
+        - name: kindCode
           in: path
-          description: Reference number
+          description: The kind code of the publication.
           required: true
           type: string
           format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/full-cycle:
-    post:
-      summary: Publications full cycle service
-      description: Publications full cycle service
       tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
+        - Images
+      responses:
+        200:
+          description: "The response body contains the \"mapping\" part of a DocumentMetadata resource in JSON format."
           schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/{number}/fulltext:
-    get:
-      summary: Fulltext inquiry service
-      description: Fulltext inquiry service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/fulltext:
-    post:
-      summary: Fulltext inquiry service
-      description: Fulltext inquiry service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
           schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/ErrorResponse"
 
-  /published-data/{type}/{format}/{number}/description:
+  /images/infos/{countryCode}/{pubNumber}/{kindCode}/pages/{pageNumber}:
     get:
-      summary: Description retrieval service
-      description: Description retrieval service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
+      summary: INFOS GET PAGE METADATA
+      description: Get the list of page ranges (start, end) for each available subpart in a publication.
+      produces:
         - application/json
-        - application/xml
-      parameters: 
-        - name: type
+      parameters:
+        - name: countryCode
           in: path
-          description: Reference type
+          description: The country code of the publication.
           required: true
           type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
+        - name: pubNumber
           in: path
-          description: Reference format
+          description: The number of the publication.
           required: true
           type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
+        - name: kindCode
           in: path
-          description: Reference number
+          description: The kind code of the publication.
           required: true
           type: string
+        - name: pageNumber
+          in: path
+          description: The number of the page to get information on.
+          required: true
+          type: number
           format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/description:
-    post:
-      summary: Description retrieval service
-      description: Description retrieval service
+        - name: fields
+          in: query
+          description: The comma-separated list of document metadata fields to include in the response.
+          required: false
+          type: string
       tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
+        - Images
+      responses:
+        200:
+          description: The response body contains a PageMetadata resource in JSON format. The JSON can be empty if none of the fields requested exist.
           schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/{number}/claims:
-    get:
-      summary: Claims retrieval service
-      description: Claims retrieval service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/claims:
-    post:
-      summary: Claims retrieval service
-      description: Claims retrieval service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
           schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
+            $ref: "#/definitions/ErrorResponse"
 
-  /published-data/{type}/{format}/{number}/equivalents:
+  /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/pages/{pageNumber}:
     get:
-      summary: Equivalents retrieval service
-      description: Equivalents retrieval service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/equivalents:
-    post:
-      summary: Equivalents retrieval service
-      description: Equivalents retrieval service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/{number}/images:
-    get:
-      summary: Images inquiry service
-      description: Images inquiry service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: docdb
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP.1000000.A1
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/{type}/{format}/images:
-    post:
-      summary: Images inquiry service
-      description: Images inquiry service
-      tags:
-        - Published
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: docdb
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/images/{image-id}:
-    get:
-      summary: Images retrieval service
-      description: Images retrieval service
-      tags:
-        - Published
-      produces: 
+      summary: DOCUMENTS GET PAGE
+      description: Download one page of a publication in PDF, TIFF or PNG format.
+      produces:
         - application/pdf
-        - application/tiff
-        - image/png
         - image/tiff
-      parameters: 
-        - name: image-id
+        - image/png        
+      parameters:
+        - name: countryCode
           in: path
-          description: Image Id
+          description: The country code of the publication.
           required: true
           type: string
-          format: string
-          default: EP/1000000/A1/fullimage
-        - name: Range
-          in: query
-          description: Page number
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
           required: true
-          type: integer
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: format
+          in: path
+          description: The output format desired for the page.
+          required: true
+          type: string
+          enum: [pdf,tiff,png]            
+        - name: pageNumber
+          in: path
+          description: The number of the page to get information on.
+          required: true
+          type: number
           format: string
-          default: 1
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /published-data/images:
-    post:
-      summary: Images retrieval service
-      description: Images retrieval service
+        - name: scale
+          in: query
+          description:  "The percentage for resizing the page. (Default: 100)"
+          required: false
+          type: number
+        - name: rotate
+          in: query
+          description:  "Whether to rotate the page if it is not properly oriented. (Default: false for TIFF/PNG, true for PDF)"
+          required: false
+          type: boolean
       tags:
-        - Published
-      produces: 
+        - Images
+      responses:
+        200:
+          description: The response body contains the content of the downloaded page in the format supplied.
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/pages:
+    get:
+      summary: DOCUMENTS GET PAGES
+      description: Download either a range of pages, or all the pages of a publication in PDF, TIFF or PNG format.
+      produces:
         - application/pdf
-        - application/tiff
-        - image/png
-        - image/tiff
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
+        - application/zip
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
           required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: Range
+          type: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: format
+          in: path
+          description: The output format desired for the page.
+          required: true
+          type: string
+          enum: [pdf,tiff,png]            
+        - name: start
           in: query
-          description: Page number
-          required: true
-          type: integer
-          format: string
-          default: 1
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /family/{type}/{format}/{number}:
-    get:
-      summary: Family retrieval service
-      description: Family retrieval service
-      tags:
-        - Family
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /family/{type}/{format}:
-    post:
-      summary: Family retrieval service
-      description: Family retrieval service
-      tags:
-        - Family
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /family/{type}/{format}/{number}/biblio:
-    get:
-      summary: Family + biblio retrieval service
-      description: Family + biblio retrieval service
-      tags:
-        - Family
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /family/{type}/{format}/biblio:
-    post:
-      summary: Family + biblio retrieval service
-      description: Family + biblio retrieval service
-      tags:
-        - Family
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /family/{type}/{format}/{number}/legal:
-    get:
-      summary: Family + biblio retrieval service
-      description: Family + biblio retrieval service
-      tags:
-        - Family
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /family/{type}/{format}/legal:
-    post:
-      summary: Family + biblio retrieval service
-      description: Family + biblio retrieval service
-      tags:
-        - Family
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /legal/{type}/{format}/{number}:
-    get:
-      summary: Legal data retrieval service
-      description: Legal data retrieval service
-      tags:
-        - Legal
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /legal/{type}/{format}:
-    post:
-      summary: Legal data retrieval service
-      description: Legal data retrieval service
-      tags:
-        - Legal
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, priority, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [docdb, epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/search:
-    get:
-      summary: Register search service
-      description: Register search service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: Range
+          description:  "The number of the first page to download. (Default: 1)"
+          required: false
+          type: number
+        - name: end
           in: query
-          description: Range of elements were requested, e.g. 1-20
+          description:  "The number of the last page to download. By default, it is set to the number of the last page of the publication."
+          required: false
+          type: number
+        - name: scale
+          in: query
+          description:  "The percentage for resizing the page. (Default: 100)"
+          required: false
+          type: number
+        - name: rotate
+          in: query
+          description:  "Whether to rotate the page if it is not properly oriented. (Default: false for TIFF/PNG, true for PDF)"
+          required: false
+          type: boolean
+      tags:
+        - Images
+      responses:
+        200:
+          description: Success
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /images/documents/{countryCode}/{pubNumber}/{kindCode}/formats/{format}/subparts:
+    get:
+      summary: "DOCUMENTS GET SUBPARTS"
+      description: "Download either a selection of subparts, or all the available subparts of a publication in PDF, TIFF or PNG format"
+      produces:
+        - application/pdf
+        - application/zip
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
           required: true
           type: string
-          format: string
-          default: 1-25
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: format
+          in: path
+          description: The output format desired for the page.
+          required: true
+          type: string
+          enum: [pdf,tiff,png]            
+        - name: subpart
+          in: query
+          description:  "The comma-separated list of subparts to download. By default, the list is empty and all available subparts are returned. (Default: [])"
+          required: false
+          type: number
+        - name: scale
+          in: query
+          description:  "The percentage for resizing the page. (Default: 100)"
+          required: false
+          type: number
+        - name: rotate
+          in: query
+          description:  "Whether to rotate the page if it is not properly oriented. (Default: false for TIFF/PNG, true for PDF)"
+          required: false
+          type: boolean
+      tags:
+        - Images
+      responses:
+        200:
+          description: "The response body contains the content of the downloaded subparts"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /images/indexes/pub-ids/entries/{countryCode}/{pubNumber}/{kindCode}:
+    get:
+      summary: "PUB-IDS: GET PUB-ID ENTRIES FROM SINGLE"
+      description: "Query for a list of indexed publications that match a single pub-id."
+      produces:
+        - application/json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+        - name: pubNumber
+          in: path
+          description: The number of the publication.
+          required: true
+          type: string
+        - name: kindCode
+          in: path
+          description: The kind code of the publication.
+          required: true
+          type: string
+        - name: pubIdOnly
+          in: query
+          description:  "false: Each match will contain the pub-id and the other properties indexed for that publication (pubDate and docId).(default) true: Each match will contain only the pub-id."
+          required: false
+          type: boolean
+        - name: infos
+          in: query
+          description:  "The comma-separated list of document metadata fields to embed inevery match. This can be used to retrieve information on each publication that matches the query. By default, metadata fields are not embedded. Use infos=all to embed all the metadata fields available."
+          required: false
+          type: string
+      tags:
+        - Images
+      responses:
+        200:
+          description: "The response body contains the content of the downloaded subparts"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /images/indexes/pub-ids/entries/list:
+    post:
+      summary: "PUB-IDS: GET PUB-ID ENTRIES FROM LIST"
+      description: "Query for a list of indexed publications that match multiple pub-ids."
+      produces:
+        - application/json
+      parameters:
+        - name: pubIdOnly
+          in: query
+          description: "false: Each match will contain the pub-id and the other properties indexed for that publication (pubDate and docId). (default). true: Each match will contain only the pub-id."
+          required: false
+          type: boolean
+          default: false
+        - name: infos
+          in: query
+          description: "The comma-separated list of document metadata fields to embed in every match. This can be used to retrieve information on each publication that matches each query. By default, metadata fields are not embedded. Use infos=all to embed all the metadata fields available."
+          required: false
+          type: string
+          default: "all"          
+        - name: body
+          in: body
+          description: "In the request body, supply a PubIdQueryList resource in JSON format. Duplicate queries (i.e. queries with the same pubId field) are allowed, and each query from duplicate is treated independently."
+          required: false
+          schema:
+            type: string
+
+      tags:
+        - Images
+      responses:
+        200:
+          description: "The response body contains the content of the downloaded subparts"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /query/convert:
+    get:
+      description: Converts a query string of type CQL into PQL format.
+      produces:
+        - application/json
+        - application/xml
+        - text/plain
+      parameters:
         - name: q
           in: query
-          description: Search query
+          description: Query string that should be evaluated and converted
           required: true
           type: string
-          format: string
-          default: ti=plastic
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/{type}/{format}/{number}/biblio:
-    get:
-      summary: Register retrieval service
-      description: Register retrieval service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/{type}/{format}/biblio:
-    post:
-      summary: Register retrieval service
-      description: Register retrieval service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/{type}/{format}/{number}/events:
-    get:
-      summary: Register events service
-      description: Register events service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/{type}/{format}/events:
-    post:
-      summary: Register events service
-      description: Register events service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/{type}/{format}/{number}/procedural-steps:
-    get:
-      summary: Register procedural steps service
-      description: Register procedural steps service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/{type}/{format}/procedural-steps:
-    post:
-      summary: Register procedural steps service
-      description: Register procedural steps service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/{type}/{format}/{number}/upp:
-    get:
-      summary: Register unitary patent service
-      description: Register unitary patent service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [epodoc]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: EP1000000
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /register/{type}/{format}/upp:
-    post:
-      summary: Register unitary patent service
-      description: Register unitary patent service
-      tags:
-        - Register
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
-          schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: publication
-          enum: [application, publication]
-        - name: format
-          in: path
-          description: Reference format
-          required: true
-          type: string
-          format: string
-          default: epodoc
-          enum: [epodoc]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /classification/cpc/{class}:
-    get:
-      summary: Classification schema service
-      description: Classification schema service
-      tags:
-        - Classification
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: class
-          in: path
-          description: CPC class name
-          required: true
-          type: string
-          format: string
-          default: A01B1/00
-        - name: ancestors
+        - name: inputFormat
           in: query
-          description: Ancestors flag
-          required: true
-          type: boolean
-          format: string
-          enum: [false, true]
-        - name: navigation
-          in: query
-          description: Navigation flag
-          required: true
-          type: boolean
-          format: string
-          enum: [false, true]
-        - name: depth
-          in: query
-          description: Classification tree traversing depth
+          description: Input format of the query string.
           required: true
           type: string
-          format: string
-          enum: [0, 1, 2, 3, all]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /classification/cpc:
-    post:
-      summary: Classification schema service
-      description: Classification schema service
-      tags:
-        - Classification
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
+          enum: [cql]  
+        - name: outputFormat
+          in: query
+          description: Output format the query should be converted into. See known formats.
           required: true
+          type: string
+          enum: [pql]
+      tags:
+        - Query
+      responses:
+        200:
+          description: Success
           schema:
-            $ref: '#/definitions/Body'
-      responses: 
-        200: 
-          description: some description
-          schema: 
             type: string
-        default: 
+        default:
           description: Error
-          schema: 
-            $ref: '#/definitions/Error'
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
-  /classification/cpc/media/{media-name}:
-    get:
-      summary: Classification media retrieval service
-      description: Classification media retrieval service
+#
+# "/search/*" section is extracted from the http://ssl-t2.internal.epo.org/v1/swagger/ssl.yaml
+#
+#   "/search/similar/legacy" is commented out because it is blocked in OPS
+#   definition ErrorResponse renamed to searchErrorResponse to resolve conflict with already existing
+#
+  /search/highlight:
+    x-swagger-router-controller: search
+    post:
+      description: Highlight marker search queries given a free text, link or (TODO a JSON formatted patent application)
+      operationId: highlight
       tags:
-        - Classification
-      produces: 
-        - image/gif
-      parameters: 
-        - name: media-name
-          in: path
-          description: CPC media resource name
-          required: true
-          type: string
-          format: string
-          default: 1000.gif
-        - name: attachment
+        - C.1 Search (internal)        
+      consumes: [
+        "text/plain",
+        "application/json"
+      ]
+      parameters:
+        - name: link
           in: query
-          description: Attachment/inline content disposition indicator. Inline is a default value.
-          required: true
-          type: boolean
-          format: string
-          enum: [false, true]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /classification/cpc/search:
-    get:
-      summary: Classification statistics search service
-      description: Classification statistics search service
-      tags:
-        - Classification
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
+          description: A reference link to the patent application
+                       E.g. EP04024654
+          required: false
+          type: string
+        - name: text
+          in: body
+          description: Array of text snippet that should be used for highlighting
+          required: false
+          schema:
+            $ref: '#/definitions/HighlightTextExample'
+          x-example: C08F8/48, C08F8/32, C08F8/32%2, C08F255/04, INV 
+        - name: field
+          in: query
+          description: The name of the fields that should be used to highlight the content and that should be contained in the response. Use this when referencing a document by link. See [BSS field specification](http://bss-search-i.internal.epo.org/v1/#fields)
+          type: string
+          required: false
+          x-example: publications.clc
         - name: q
           in: query
-          description: Search query
+          description: PQL marker query. Comma separated array of queries.
           required: true
-          type: string
-          format: string
-          default: plastic
-      responses: 
-        200: 
-          description: some description
-          schema: 
+          collectionFormat: multi
+          type: array
+          items:
             type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /classification/map/{input-format}/{class}/{output-format}:
-    get:
-      summary: Classification mapping service
-      description: Classification mapping service
-      tags:
-        - Classification
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: input-format
-          in: path
-          description: Input classification conversion format
-          required: true
-          type: string
-          format: string
-          default: ecla
-          enum: [cpc, ecla]
-        - name: class
-          in: path
-          description: some description
-          required: true
-          type: string
-          format: string
-          default: A01B1/00
-        - name: output-format
-          in: path
-          description: Output classification conversion format
-          required: true
-          type: string
-          format: string
-          default: cpc
-          enum: [cpc, ecla, ipc]
-        - name: additional
+          x-example: C08F8/32%2/CLC
+        - name: strict
           in: query
-          description: Invention/Additional resolution indicator. Invention is default value.
-          required: true
-          type: boolean
-          format: string
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
+          description: Whether or not use strict highlighting. Default value is "True"
+          required: false
+          type: string
+          default: "true"
 
-  /number-service/{type}/{input-format}/{number}/{output-format}:
-    get:
-      summary: Number service
-      description: Number service
-      tags:
-        - Number
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      parameters: 
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: application
-          enum: [application, priority, publication]
-        - name: input-format
-          in: path
-          description: Input reference format
-          required: true
-          type: string
-          format: string
-          default: original
-          enum: [docdb, original]
-        - name: number
-          in: path
-          description: Reference number
-          required: true
-          type: string
-          format: string
-          default: US.(05/948,554).19781004
-        - name: output-format
-          in: path
-          description: Output reference format
-          required: true
-          type: string
-          format: string
-          default: docdb
-          enum: [docdb, epodoc, original]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
-          description: Error
-          schema: 
-            $ref: '#/definitions/Error'
-
-  /number-service/{type}/{input-format}/{output-format}:
-    post:
-      summary: Number service
-      description: Number service
-      tags:
-        - Number
-      produces: 
-        - application/javascript
-        - application/json
-        - application/xml
-      consumes: 
-        - text/plain
-      parameters: 
-        - name: body
-          in: body
-          description: Request payload
-          required: true
+      responses:
+        "200":
+          description: Success
           schema:
-            $ref: '#/definitions/Body'
-        - name: type
-          in: path
-          description: Reference type
-          required: true
-          type: string
-          format: string
-          default: application
-          enum: [application, priority, publication]
-        - name: input-format
-          in: path
-          description: Input reference format
-          required: true
-          type: string
-          format: string
-          default: original
-          enum: [docdb, epodoc, original]
-        - name: output-format
-          in: path
-          description: Output reference format
-          required: true
-          type: string
-          format: string
-          default: docdb
-          enum: [docdb, epodoc, original]
-      responses: 
-        200: 
-          description: some description
-          schema: 
-            type: string
-        default: 
+            $ref: "#/definitions/searchResultResponse"
+        default:
           description: Error
-          schema: 
-            $ref: '#/definitions/Error'
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 
+  /search/highlight/composite:
+    x-swagger-router-controller: search
+    post:
+      description: 'Proxy call for highlight'
+      consumes:
+        - application/json
+      operationId: highlightComposite
+      parameters:
+          - in: body
+            name: body
+            required: false
+            schema:
+              $ref: '#/definitions/compositeHighLightRequest'
+      produces:
+        - application/json
+
+      tags:
+        - C.1 Search (internal)        
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /search:
+    x-swagger-router-controller: search
+    get:
+      description: PQL marker search. Proxying BSS [see description](http://confluence-p.internal.epo.org/display/BSS/Search+API+service+RESTful+API).
+      operationId: searchInElasticCluster
+      tags:
+        - C.1 Search (internal)        
+      parameters:
+        - name: q
+          in: query
+          description: PQL marker query. Corresponds to multiple parameter instances instead of multiple values for a single instance q=markerQuery1&q=markerQuery2.
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+          x-example: dna  
+        - name: maxNbResults
+          in: query
+          description: The number of similar results that should be returend
+          required: false
+          type: number
+          default: 10
+        - name: offset
+          in: query
+          description: The offset from which the results should be returned from. This is required for pagination
+                       E.g. 10
+          required: false
+          type: number
+          default: 0
+        - name: fields
+          in: query
+          description: The name of the fields that should be used to find similar content and that should be contained in the response. 
+                       E.g. publications.wpi_abs_en,publications.abs_en,publications.ti_en. See [BSS field specification](http://bss-search-i.internal.epo.org/v1/#fields)
+          type: array
+          items:
+            type: string
+          required: false
+          default: [publications.wpi_abs_en,publications.abs_en,publications.ti_en]
+        - name: highlight
+          in: query
+          description: The name of fields in which matches should be highlighted
+                       E.g. publications.wpi_abs_en,publications.abs_en,publications.ti_en. See [BSS field specification](http://bss-search-i.internal.epo.org/v1/#fields)
+          type: array
+          items:
+            type: string
+          required: false
+          default: [publications.wpi_abs_en,publications.abs_en,publications.ti_en]
+        - name: widgets
+          in: query
+          description: The name of widgets (factes) that should be provided in the response
+                       E.g. buckets,dates,applicant,inventor,cpc,ipc,languages,markers,priorityDate,top-score
+          type: array
+          items:
+            type: string
+          required: false
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/markers/:
+    x-swagger-router-controller: search
+    post:
+      description: 'Proxy call for markers search'
+      consumes:
+        - application/json
+      operationId: searchMarkers
+      parameters:
+          - in: body
+            name: body
+            required: false
+            schema:
+              $ref: '#/definitions/markersRequest'
+      produces:
+        - application/json
+
+      tags:
+        - C.1 Search (internal)        
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/mlt:
+    x-swagger-router-controller: search
+    post:
+      description: The MoreLikeThis service enables to query for documents similar to a document in the result list index or similar to a text snippet. It does this by using terms from the provided document to find similar documents in the index.
+      operationId: moreLikeThis
+      tags:
+        - C.1 Search (internal)        
+      consumes: [
+        "text/plain"
+      ]
+      parameters:
+        - name: applicationNumber
+          in: query
+          description: Id of a reference document contained in the result list or search index.
+                       E.g. EP04024654
+          required: false
+          type: string
+        - name: text
+          in: body
+          description: Text snippet that should be used to find similar documents
+          required: false
+          schema:
+            $ref: '#/definitions/MltTextExample'
+        - name: lang
+          in: query
+          description: The language of the text snippet
+          required: false
+          type: string
+          default: "en"
+        - name: maxNbResults
+          in: query
+          description: The number of similar results that should be returend
+          required: false
+          type: number
+          default: 10
+        - name: offset
+          in: query
+          description: The offset from which the results should be returned from. This is required for pagination
+          required: false
+          type: number
+          default: 0
+        - name: minDocFreq
+          in: query
+          description: The min frequency of a document that is to be returend
+          required: false
+          type: number
+          default: 10
+        - name: fields
+          in: query
+          description: The name of the fields that should be used to find similar content and that should be contained in the response.
+                       E.g. publications.wpi_abs_en,publications.abs_en,publications.ti_en. See [BSS field specification](http://bss-search-i.internal.epo.org/v1/#fields)
+          type: array
+          items:
+            type: string
+          required: false
+          default: [publications.wpi_abs_en,publications.abs_en,publications.ti_en]
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  
+  /search/similar:
+    x-swagger-router-controller: search
+    post:
+      description: 'Proxy call for more like this (MLT) search'
+      consumes:
+        - application/json
+      operationId: similar
+      parameters:
+          - in: body
+            name: body
+            required: false
+            schema:
+              $ref: '#/definitions/searchSimilarRequest'
+      produces:
+        - application/json
+
+      tags:
+        - C.1 Search (internal)        
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/figures:
+    x-swagger-router-controller: search
+    post:
+      description: ''
+      consumes:
+        - application/json
+      operationId: searchFigures
+      parameters:
+          - in: body
+            name: body
+            required: false
+            schema:
+              $ref: '#/definitions/figuresRequest'
+      produces:
+        - application/json
+
+      tags:
+        - C.1 Search (internal)        
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+# complex objects have schema definitions
 definitions:
-  Body:
-    type: array
-    items:
-      type: string
-        
-  Error:
+  ErrorResponse:
     type: object
     properties:
       code:
-        type: string
+        type: string    
+      message:
+        type: string    
+    
+    xml:
+      name: fault
+
+  searchResultResponse:
+    type: object
+    required:
+      - message
+    properties:
       message:
         type: string
 
-    xml:
-      name: fault
+  figuresRequest:
+    type: object
+    example:
+      query:
+        markers:
+          mA: Neuron
+        highlighting:
+          - field: publications.abs_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+        positions:
+          mA:
+            - 'x': 170
+              'y': 84
+        fields:
+          - biblio
+          - publications.ti_en
+        itemsPerGroup: -1
+        size: 10
+        from: 0
+        minScore: -1
+      widgets:
+        bucket: {}
+        applicant:
+          size: '30'
+          weighted: 'false'
+      filters: {}
+
+  searchSimilarRequest:
+    type: object
+    example:
+      query:
+        markers:
+          mA: dna
+          mB: test
+        highlighting:
+          - field: publications.abs_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.abs_fr
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.abs_de
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.desc_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.desc_fr
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.desc_de
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.wpi_abs_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.claims_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.claims_fr
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.claims_de
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.ti_en
+            fragment_words_number: 50
+            number_of_fragments: 0
+            hits_only: true
+          - field: publications.ti_fr
+            fragment_words_number: 50
+            number_of_fragments: 0
+            hits_only: true
+          - field: publications.ti_de
+            fragment_words_number: 50
+            number_of_fragments: 0
+            hits_only: true
+          - field: publications.refphrases_en
+            fragment_words_number: 100
+            number_of_fragments: 1000
+            hits_only: true
+          - field: publications.refphrases_fr
+            fragment_words_number: 100
+            number_of_fragments: 1000
+            hits_only: true
+          - field: publications.refphrases_de
+            fragment_words_number: 100
+            number_of_fragments: 1000
+            hits_only: true
+        moreLikeThis:
+          lang: en
+          text: >-
+            A reconfigurable operation apparatus (1), comprising:  a plurality
+            of operation means (20) for reconfiguring themselves by using a
+            given first configuration data, and for operating simultaneously w 
+        fields:
+          - biblio
+          - langstats
+          - lang
+          - in.untouched
+          - pa.untouched
+          - cpc_full
+          - opubd_full.untouched
+          - oprid_full.untouched
+          - publications.text_length
+          - publications.n_of_pages
+          - publications.datasource
+          - publications.ti_en
+          - publications.ti_fr
+          - publications.ti_de
+          - publications.drawings
+          - publications.abs_en
+          - publications.abs_fr
+          - publications.abs_de
+          - publications.figs
+          - publications.refs_en
+          - publications.refs_fr
+          - publications.refs_de
+          - publications.refphrases_en
+          - publications.refphrases_fr
+          - publications.refphrases_de
+          - publications.in.untouched
+          - publications.pa.untouched
+          - publications.rep
+          - publications.app_fdate.untouched
+        dejavu:
+          - 055781301
+          - 054930780
+          - 012597157
+          - 018073273
+          - 047756190
+          - 011417818
+          - 007815636
+          - '012303715'
+          - 019768684
+          - 039714208
+          - 022278261
+          - 013258122
+          - '041264164'
+          - 019857669
+          - 007855657
+          - 029255319
+          - 025078586
+          - 032990718
+          - 032719272
+          - 025679813
+          - '025527367'
+          - 022877111
+          - '033541500'
+          - 029227380
+          - 009953470
+          - 022968090
+          - 022908551
+          - 034896142
+          - 046940437
+          - 034679395
+          - '050241141'
+          - 028786850
+          - 009943106
+          - 034933942
+          - 034129727
+          - 026800915
+          - 023275897
+          - 022883842
+        itemsPerGroup: -1
+        size: 10
+        from: 0
+        minScore: -1
+      widgets:
+        bucket: {}
+        dates:
+          filing-date: '2004-12-31'
+          prio-date: '2004-07-12'
+        applicant:
+          size: '30'
+          weighted: 'false'
+        cc:
+          size: '20'
+          weighted: 'false'
+        cpc:
+          size: '100'
+          weighted: 'false'
+        cpc_complete:
+          size: '150'
+          weighted: 'false'
+        ca:
+          size: '100'
+          weighted: 'false'
+        ca_complete:
+          size: '150'
+          weighted: 'false'
+        ci:
+          size: '100'
+          weighted: 'false'
+        ci_complete:
+          size: '150'
+          weighted: 'false'
+        fi:
+          size: '100'
+          weighted: 'false'
+        ft:
+          size: '100'
+          weighted: 'false'
+        inventor:
+          size: '30'
+          weighted: 'false'
+        ipc:
+          size: '100'
+          weighted: 'false'
+        kw:
+          size: '100'
+          weighted: 'false'
+        languages:
+          size: '5'
+        markers:
+          size: '30'
+          weighted: 'false'
+        priorityDate:
+          size: '30'
+        top-scores:
+          field: famn
+          length: '1000'
+      filters: {}
+
+  markersRequest:
+    type: object
+    example:
+      query:
+        markers:
+          mA: dna
+        highlighting:
+          - field: publications.abs_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.abs_fr
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.abs_de
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.desc_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.desc_fr
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.desc_de
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.wpi_abs_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.claims_en
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.claims_fr
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.claims_de
+            fragment_words_number: 20
+            number_of_fragments: 3
+            hits_only: true
+          - field: publications.ti_en
+            fragment_words_number: 50
+            number_of_fragments: 0
+            hits_only: true
+          - field: publications.ti_fr
+            fragment_words_number: 50
+            number_of_fragments: 0
+            hits_only: true
+          - field: publications.ti_de
+            fragment_words_number: 50
+            number_of_fragments: 0
+            hits_only: true
+          - field: publications.refphrases_en
+            fragment_words_number: 100
+            number_of_fragments: 1000
+            hits_only: true
+          - field: publications.refphrases_fr
+            fragment_words_number: 100
+            number_of_fragments: 1000
+            hits_only: true
+          - field: publications.refphrases_de
+            fragment_words_number: 100
+            number_of_fragments: 1000
+            hits_only: true
+        bucket: []
+        fields:
+          - biblio
+          - langstats
+          - lang
+          - in.untouched
+          - pa.untouched
+          - cpc_full
+          - opubd_full.untouched
+          - oprid_full.untouched
+          - publications.text_length
+          - publications.n_of_pages
+          - publications.datasource
+          - publications.ti_en
+          - publications.ti_fr
+          - publications.ti_de
+          - publications.drawings
+          - publications.abs_en
+          - publications.abs_fr
+          - publications.abs_de
+          - publications.figs
+          - publications.refs_en
+          - publications.refs_fr
+          - publications.refs_de
+          - publications.refphrases_en
+          - publications.refphrases_fr
+          - publications.refphrases_de
+          - publications.in.untouched
+          - publications.pa.untouched
+          - publications.rep
+          - publications.app_fdate.untouched
+        dejavu:
+          - 012597157
+          - 018073273
+          - 047756190
+          - 011417818
+          - 007815636
+          - '012303715'
+          - 019768684
+          - 039714208
+          - 022278261
+          - 013258122
+          - '041264164'
+          - 019857669
+          - 007855657
+          - 029255319
+          - 025078586
+          - 032990718
+          - 032719272
+          - 025679813
+          - '025527367'
+          - 022877111
+          - '033541500'
+          - 029227380
+          - 009953470
+          - 022968090
+          - 022908551
+          - 034896142
+          - 046940437
+          - 034679395
+          - '050241141'
+          - 028786850
+          - 009943106
+          - 034933942
+          - 034129727
+          - 026800915
+          - 023275897
+          - 022883842
+          - 054930780
+        itemsPerGroup: -1
+        size: 10
+        from: 0
+        minScore: -1
+      widgets:
+        bucket: {}
+        dates:
+          filing-date: '2004-12-31'
+          prio-date: '2004-07-12'
+        applicant:
+          size: '30'
+          weighted: 'false'
+        cc:
+          size: '20'
+          weighted: 'false'
+        cpc:
+          size: '100'
+          weighted: 'false'
+        cpc_complete:
+          size: '150'
+          weighted: 'false'
+        ca:
+          size: '100'
+          weighted: 'false'
+        ca_complete:
+          size: '150'
+          weighted: 'false'
+        ci:
+          size: '100'
+          weighted: 'false'
+        ci_complete:
+          size: '150'
+          weighted: 'false'
+        fi:
+          size: '100'
+          weighted: 'false'
+        ft:
+          size: '100'
+          weighted: 'false'
+        inventor:
+          size: '30'
+          weighted: 'false'
+        ipc:
+          size: '100'
+          weighted: 'false'
+        kw:
+          size: '100'
+          weighted: 'false'
+        languages:
+          size: '5'
+        markers:
+          size: '30'
+          weighted: 'false'
+        priorityDate:
+          size: '30'
+        top-scores:
+          field: famn
+          length: '1000'
+      filters: {}
+
+  compositeHighLightRequest:
+    example:
+      text-items:
+        - text:
+            - lorem ipsur
+            - dolor sit amet
+          strict: true
+          field: publications.ti_en
+          markers:
+            mA: markerA
+            mB: markerB
+          key: '1'
+        - text:
+            - lorem ipsur
+            - dolor sit amet
+          strict: true
+          field: publications.ti_en
+          markers:
+            mA: markerA
+            mB: markerB
+          key: '2'
+      url-items:
+        - url: 'http://bss-search-t/v1/?test=param'
+          strict: true
+          field: publications.ti_en
+          markers:
+            mA: markerA
+            mB: markerB
+          key: '3'
+        - url: 'http://bss-search-t/v1/?test=param'
+          strict: true
+          field: publications.ti_en
+          markers:
+            mA: markerA
+            mB: markerB
+          key: '4'
+      json-items:
+        - fields:
+            US201514929017A:
+              abs_en:
+                A1:
+                  - >-
+                    <div type="abstract" xml:lang="en" notation="docdba"><p>This
+                    present invention provides a method for continuously
+                    maintaining growth of a motor neuron progenitor cell and a
+                    pharmaceutical composition. Wherein, the method for
+                    continuously maintaining growth of a motor neuron progenitor
+                    cell is to culture the motor neuron progenitor cell in an
+                    environment which is constructed by the olfactory
+                    ensheathing cells to make the motor neuron progenitor cell
+                    sustain the ability to self-replicate and to be induced for
+                    differentiating into mature neuron, and therefore to
+                    elaborate the effect to protect the motor neuron. The motor
+                    neuron progenitor cell produced from the method disclosed in
+                    this present invention can be an effective ingredient of the
+                    pharmaceutical composition for treating related diseases of
+                    damaged motor neuron.</p></div>
+              allKindCodes:
+                - A1
+              appn:
+                A1:
+                  - US201514929017A
+              cca:
+                A1:
+                  - C12N2502/083
+              cci:
+                A1:
+                  - A61K35/30
+                  - C12N5/0619
+              datasource:
+                A1:
+                  - kime-data:
+                      famn: '055543155'
+                      rid: '471436406'
+                      pn: WO2016182630A1
+                      date: '2016-11-17'
+                      fulltext:
+                        EN:
+                          claims-id: e77ed992-8f25-4b18-a106-cb6ac2f71492
+                          claims-url: >-
+                            /api/tei/publication/471436406/sections/e77ed992-8f25-4b18-a106-cb6ac2f71492
+                          description-id: 9727fabb-41d2-40dc-94af-73da61dfc5d0
+                          description-url: >-
+                            /api/tei/publication/471436406/sections/9727fabb-41d2-40dc-94af-73da61dfc5d0
+              fd: '2015-10-30'
+              hasWPI: true
+              in:
+                A1:
+                  - CHUANG CHUN-WEI
+                  - HARN HORNG-JYH
+                  - LEE HSIU-CHIN
+                  - LIN SHINN-ZONG
+                  - PAN HUNG-CHUAN
+                  - SU HONG-LIN
+              ipc:
+                A1:
+                  - A61K35/30
+                  - C12N5/0793
+              pa:
+                A1:
+                  - NAT UNIV CHUNG HSING
+              pd:
+                A1:
+                  - '2016-05-05'
+              pn:
+                A1:
+                  - US2016122710A1
+              ti_en:
+                A1:
+                  - >-
+                    METHOD AND PHARMACEUTICAL COMPOSITION FOR CONTINUOUSLY
+                    MAINTAINING GROWTH OF A MOTOR NEURON PROGENITOR CELL
+              wpi_abs_en:
+                A1:
+                  - >-
+                    <div type="abstractEnhanced" subtype="abstractCore"
+                    xml:lang="en"> ffffff <div type="novelty"> pppppp  ssssss
+                    <p><span data-auto-generated="true">NOVELTY
+                    </span>Continuously maintaining growth of a motor neuron
+                    progenitor cell comprises culturing a motor neuron
+                    progenitor cell under a culture condition constructed by an
+                    olfactory ensheathing cell to make the motor neuron
+                    progenitor cell maintain the ability to self-renewal and
+                    differentiate to a mature motor neuron cell.</p></div>
+                    ffffff <div type="description"> pppppp  ssssss <p><span
+                    data-auto-generated="true">DETAILED DESCRIPTION </span>An
+                    INDEPENDENT CLAIM is also included for a composition
+                    comprising dosage of the motor neuron progenitor cells and
+                    at least a carrier, where the motor neuron progenitor cells
+                    were pre-treated by the method</p></div> ffffff <div
+                    type="activity"> pppppp  ssssss <p><span
+                    data-auto-generated="true">ACTIVITY
+                    </span>Cerebroprotective; Vasotropic; Neuroprotective;
+                    Vulnerary.</p></div> ffffff <div type="mechanismOfAction">
+                    pppppp  ssssss <p><span data-auto-generated="true">MECHANISM
+                    OF ACTION </span>Cell therapy.</p></div> ffffff <div
+                    type="use"> pppppp  ssssss <p><span
+                    data-auto-generated="true">USE </span>The method is useful
+                    for: continuously maintaining growth of a motor neuron
+                    progenitor cell; treating a motor neural disease comprising
+                    stroke, spinal damage, neurodegenerative disease,
+                    amyotrophic lateral sclerosis and disease having symptom of
+                    dying motor neuron (all claimed). ssssss  Test details are
+                    described but no results given.</p></div> ffffff <div
+                    type="advantage"> pppppp  ssssss <p><span
+                    data-auto-generated="true">ADVANTAGE </span>The method
+                    improves the growth of the motor neuron.</p></div></div><div
+                    type="abstractEnhanced" subtype="abstractTechFocus"
+                    xml:lang="en"> ffffff  pppppp  ssssss <div
+                    type="techFocusArea"><span
+                    data-auto-generated="false">BIOLOGY</span> pppppp  ssssss
+                    <p>Preferred Method: The culture condition: is a culture
+                    media including the olfactory ensheathing cell; and
+                    olfactory ensheathing cell-free media with pre-treatment of
+                    the olfactory ensheathing cell. ssssss  The motor neuron
+                    progenitor cell is cultured in low or high density. ssssss 
+                    The method comprises seeding at least one motor neuron
+                    progenitor cell on the olfactory ensheathing cell. ssssss 
+                    The motor neuron progenitor cell is expanded and
+                    proliferated over 10 generations under the culture
+                    condition. ssssss  The single motor neuron progenitor cell
+                    has ability to form a colony under the culture condition.
+                    ssssss  Preferred Composition: The composition further
+                    comprises an olfactory ensheathing cell. ssssss  Preferred
+                    Components: The motor neuron progenitor cell and the
+                    olfactory ensheathing cell are pre-treated with equal
+                    ratio.</p></div></div>
+              wpi_an:
+                A1:
+                  - 2016-26598U
+              wpi_cn:
+                A1:
+                  - RA00GT-K
+                  - RA00GT-M
+              wpi_dc:
+                A1:
+                  - B04
+                  - D16
+              wpi_m1:
+                A1:
+                  - >-
+                    [01] M423 M431 M782 M905 N136 P446 P528 P950 Q233;  ssssss
+                    RA00GT-K RA00GT-M
+              wpi_mc:
+                A1:
+                  - B04-F02
+                  - B14-F02D1
+                  - B14-J01
+                  - B14-N16
+                  - B14-S21
+                  - D05-H08B
+            fwdcitation0:
+              type: string
+              publications.pn:
+                - US2016122710A1
+              datasource:
+                - 055851988
+                - '451970102'
+                - US2016122710A1
+                - '2016-05-05'
+                - >-
+                  71e7b44c-89c2-4c4b-adc4-a8148f1c0ebc,7c9e8d63-9682-489d-8157-e298cd9d057b
+                - EN
+          markers:
+            mA: Neuron
+          key: '5'
+    properties:
+      json-items:
+        items:
+          $ref: '#/definitions/HighLightJsonRequest'
+        type: array
+      text-items:
+        items:
+          $ref: '#/definitions/HighLightTextRequest'
+        type: array
+      url-items:
+        items:
+          $ref: '#/definitions/HighLightURLRequest'
+        type: array
+    type: object
+
+  HighLightJsonRequest:
+    example:
+      fields:
+        US201514929017A:
+          abs_en:
+            A1:
+              - >-
+                <div type="abstract" xml:lang="en" notation="docdba"><p>This
+                present invention provides a method for continuously maintaining
+                growth of a motor neuron progenitor cell and a pharmaceutical
+                composition. Wherein, the method for continuously maintaining
+                growth of a motor neuron progenitor cell is to culture the motor
+                neuron progenitor cell in an environment which is constructed by
+                the olfactory ensheathing cells to make the motor neuron
+                progenitor cell sustain the ability to self-replicate and to be
+                induced for differentiating into mature neuron, and therefore to
+                elaborate the effect to protect the motor neuron. The motor
+                neuron progenitor cell produced from the method disclosed in
+                this present invention can be an effective ingredient of the
+                pharmaceutical composition for treating related diseases of
+                damaged motor neuron.</p></div>
+          allKindCodes:
+            - A1
+          appn:
+            A1:
+              - US201514929017A
+          cca:
+            A1:
+              - C12N2502/083
+          cci:
+            A1:
+              - A61K35/30
+              - C12N5/0619
+          datasource:
+            A1:
+              - kime-data:
+                  famn: '055543155'
+                  rid: '471436406'
+                  pn: WO2016182630A1
+                  date: '2016-11-17'
+                  fulltext:
+                    EN:
+                      claims-id: e77ed992-8f25-4b18-a106-cb6ac2f71492
+                      claims-url: >-
+                        /api/tei/publication/471436406/sections/e77ed992-8f25-4b18-a106-cb6ac2f71492
+                      description-id: 9727fabb-41d2-40dc-94af-73da61dfc5d0
+                      description-url: >-
+                        /api/tei/publication/471436406/sections/9727fabb-41d2-40dc-94af-73da61dfc5d0
+          fd: '2015-10-30'
+          hasWPI: true
+          in:
+            A1:
+              - CHUANG CHUN-WEI
+              - HARN HORNG-JYH
+              - LEE HSIU-CHIN
+              - LIN SHINN-ZONG
+              - PAN HUNG-CHUAN
+              - SU HONG-LIN
+          ipc:
+            A1:
+              - A61K35/30
+              - C12N5/0793
+          pa:
+            A1:
+              - NAT UNIV CHUNG HSING
+          pd:
+            A1:
+              - '2016-05-05'
+          pn:
+            A1:
+              - US2016122710A1
+          ti_en:
+            A1:
+              - >-
+                METHOD AND PHARMACEUTICAL COMPOSITION FOR CONTINUOUSLY
+                MAINTAINING GROWTH OF A MOTOR NEURON PROGENITOR CELL
+          wpi_abs_en:
+            A1:
+              - >-
+                <div type="abstractEnhanced" subtype="abstractCore"
+                xml:lang="en"> ffffff <div type="novelty"> pppppp  ssssss
+                <p><span data-auto-generated="true">NOVELTY </span>Continuously
+                maintaining growth of a motor neuron progenitor cell comprises
+                culturing a motor neuron progenitor cell under a culture
+                condition constructed by an olfactory ensheathing cell to make
+                the motor neuron progenitor cell maintain the ability to
+                self-renewal and differentiate to a mature motor neuron
+                cell.</p></div> ffffff <div type="description"> pppppp  ssssss
+                <p><span data-auto-generated="true">DETAILED DESCRIPTION
+                </span>An INDEPENDENT CLAIM is also included for a composition
+                comprising dosage of the motor neuron progenitor cells and at
+                least a carrier, where the motor neuron progenitor cells were
+                pre-treated by the method</p></div> ffffff <div type="activity">
+                pppppp  ssssss <p><span data-auto-generated="true">ACTIVITY
+                </span>Cerebroprotective; Vasotropic; Neuroprotective;
+                Vulnerary.</p></div> ffffff <div type="mechanismOfAction">
+                pppppp  ssssss <p><span data-auto-generated="true">MECHANISM OF
+                ACTION </span>Cell therapy.</p></div> ffffff <div type="use">
+                pppppp  ssssss <p><span data-auto-generated="true">USE
+                </span>The method is useful for: continuously maintaining growth
+                of a motor neuron progenitor cell; treating a motor neural
+                disease comprising stroke, spinal damage, neurodegenerative
+                disease, amyotrophic lateral sclerosis and disease having
+                symptom of dying motor neuron (all claimed). ssssss  Test
+                details are described but no results given.</p></div> ffffff
+                <div type="advantage"> pppppp  ssssss <p><span
+                data-auto-generated="true">ADVANTAGE </span>The method improves
+                the growth of the motor neuron.</p></div></div><div
+                type="abstractEnhanced" subtype="abstractTechFocus"
+                xml:lang="en"> ffffff  pppppp  ssssss <div
+                type="techFocusArea"><span
+                data-auto-generated="false">BIOLOGY</span> pppppp  ssssss
+                <p>Preferred Method: The culture condition: is a culture media
+                including the olfactory ensheathing cell; and olfactory
+                ensheathing cell-free media with pre-treatment of the olfactory
+                ensheathing cell. ssssss  The motor neuron progenitor cell is
+                cultured in low or high density. ssssss  The method comprises
+                seeding at least one motor neuron progenitor cell on the
+                olfactory ensheathing cell. ssssss  The motor neuron progenitor
+                cell is expanded and proliferated over 10 generations under the
+                culture condition. ssssss  The single motor neuron progenitor
+                cell has ability to form a colony under the culture condition.
+                ssssss  Preferred Composition: The composition further comprises
+                an olfactory ensheathing cell. ssssss  Preferred Components: The
+                motor neuron progenitor cell and the olfactory ensheathing cell
+                are pre-treated with equal ratio.</p></div></div>
+          wpi_an:
+            A1:
+              - 2016-26598U
+          wpi_cn:
+            A1:
+              - RA00GT-K
+              - RA00GT-M
+          wpi_dc:
+            A1:
+              - B04
+              - D16
+          wpi_m1:
+            A1:
+              - >-
+                [01] M423 M431 M782 M905 N136 P446 P528 P950 Q233;  ssssss
+                RA00GT-K RA00GT-M
+          wpi_mc:
+            A1:
+              - B04-F02
+              - B14-F02D1
+              - B14-J01
+              - B14-N16
+              - B14-S21
+              - D05-H08B
+        fwdcitation0:
+          type: string
+          publications.pn:
+            - US2016122710A1
+          datasource:
+            - 055851988
+            - '451970102'
+            - US2016122710A1
+            - '2016-05-05'
+            - >-
+              71e7b44c-89c2-4c4b-adc4-a8148f1c0ebc,7c9e8d63-9682-489d-8157-e298cd9d057b
+            - EN
+      markers:
+        mA: Neuron
+    properties:
+      fields:
+        description: Any valid json object to be highlighted
+        additionalProperties:
+          type: object
+        type: object
+      key:
+        description: >-
+          Request id (should be used for composite requests) in order to match
+          requests to responses
+        type: string
+      markers:
+        description: Markers to be applied
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+    
+  HighLightTextRequest:
+    example:
+      markers:
+        mA: Neuron
+      field: publications.refphrases_en
+      text:
+        - testText
+    properties:
+      field:
+        description: Elasticsearch field name whose analyzer should be used
+        default: publications.desc_en
+        type: string
+      key:
+        description: >-
+          Request id (should be used for composite requests) in order to match
+          requests to responses
+        type: string
+      markers:
+        description: Markers to be applied
+        additionalProperties:
+          type: string
+        type: object
+      strict:
+        description: TBD
+        default: false
+        type: boolean
+      text:
+        items:
+          description: Text to be highlighted
+          type: string
+        type: array
+    type: object
+
+  HighLightURLRequest:
+    example:
+      markers:
+        mA: Neuron
+      field: publications.refphrases_en
+      url: 'http://epo.org'
+    properties:
+      field:
+        description: Elasticsearch field name whose analyzer should be used
+        default: publications.desc_en
+        type: string
+      key:
+        description: >-
+          Request id (should be used for composite requests) in order to match
+          requests to responses
+        type: string
+      markers:
+        description: Markers to be applied
+        additionalProperties:
+          type: string
+        type: object
+      strict:
+        description: Wheteher or not the highlight be strict
+        default: false
+        type: boolean
+      url:
+        description: URL which data should be reolved and highlighted
+        type: string
+    type: object
+
+# EXAMPLES:
+  HighlightTextExample:
+    type: string
+    example: "The present invention relates to an image forming apparatus and method."
+
+  MltTextExample:
+    type: string
+    example: "The present invention relates to an image forming apparatus and method."
