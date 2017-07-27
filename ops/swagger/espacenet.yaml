@@ -4,10 +4,10 @@ swagger: '2.0'
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
-  version: "3.2.10"
+  version: "3.2.10.TEST"
 # the domain of the service
 # If host is not specified, it is assumed to be the same host where the API documentation is being served.
-# host: ops-t.internal.epo.org
+host: ops-t.internal.epo.org
 # host: ops-i.epo.org
 # array of all schemes that your API supports
 schemes:
