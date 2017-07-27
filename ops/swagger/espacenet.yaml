@@ -4,12 +4,11 @@ swagger: '2.0'
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
-  version: "3.2.5"
+  version: "3.2.3"
 # the domain of the service
 # If host is not specified, it is assumed to be the same host where the API documentation is being served.
-host: ops-t.internal.epo.org
+# host: ops-t.internal.epo.org
 # host: ops-i.epo.org
-# host: ops2-i.internal.epo.org
 # array of all schemes that your API supports
 schemes:
   - http
@@ -17,49 +16,6 @@ schemes:
 # will be prefixed to all paths
 basePath: /3.2/rest-services
 paths:
-  /links/{countryCode}/{pubNumber}/{kindCode}:
-    get:
-      summary: Links builder
-      description: Constructs Espacenet external links
-      produces:
-        - application/hal+json
-      parameters:
-        - name: countryCode
-          in: path
-          description: The country code of the publication.
-          required: true
-          type: string
-          format: string
-        - name: pubNumber
-          in: path
-          description: The number of the publication.
-          required: true
-          type: string
-          format: string
-        - name: kindCode
-          in: path
-          description: The kind code of the publication.
-          required: true
-          type: string
-          format: string
-        - name: locale
-          in: query
-          description: Document locale
-          required: false
-          type: string
-          format: string
-      tags:
-        - Link
-      responses:
-        200:
-          description: "The response body contains list of links in hal+json format."
-          schema:
-            type: string
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /images/infos/{countryCode}/{pubNumber}/{kindCode}:
     get:
       summary: INFOS GET DOCUMENT METADATA
@@ -900,14 +856,14 @@ definitions:
             mB: markerB
           key: '2'
       url-items:
-        - url: 'http://bss-search-t/v1/?test=param'
+        - url: 'http://bss-search-espacenet-t/v1/?test=param'
           strict: true
           field: publications.ti_en
           markers:
             mA: markerA
             mB: markerB
           key: '3'
-        - url: 'http://bss-search-t/v1/?test=param'
+        - url: 'http://bss-search-espacenet-t/v1/?test=param'
           strict: true
           field: publications.ti_en
           markers:
@@ -1364,7 +1320,7 @@ definitions:
         fields:
           - biblio
           - publications.ti_en
-        itemsPerGroup: -5
+        itemsPerGroup: -1
         size: 10
         from: 0
         minScore: -1
@@ -1515,7 +1471,7 @@ definitions:
           - 023275897
           - 022883842
           - 054930780
-        itemsPerGroup: -5
+        itemsPerGroup: -1
         size: 10
         from: 0
         minScore: -1
@@ -1722,7 +1678,7 @@ definitions:
           - 026800915
           - 023275897
           - 022883842
-        itemsPerGroup: -5
+        itemsPerGroup: -1
         size: 10
         from: 0
         minScore: -1
