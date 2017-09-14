@@ -4,11 +4,11 @@ swagger: '2.0'
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
-  version: "3.2.6"
+  version: "3.2.7"
 # the domain of the service
 # If host is not specified, it is assumed to be the same host where the API documentation is being served.
 # host: ops-t.internal.epo.org
-host: ops-i.epo.org
+# host: ops-i.epo.org
 # array of all schemes that your API supports
 schemes:
   - http
@@ -240,11 +240,53 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+            
+  /images/indexes/pub-ids/entries/{countryCode}/{pubNumber}:
+    get:
+      summary: "PUB-IDS: GET PUB-ID ENTRIES FROM SINGLE"
+      description: "Query for a list of indexed publications that match a single pub-id."
+      produces:
+        - application/json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the publication.
+          required: true
+          type: string
+        - name: pubNumber
+          in: path
+          description: "The number of the publication. Use * wildcard at the end to find all the publication numbers that match the beginning of pubNumber."
+          required: true
+          type: string
+        - name: pubIdOnly
+          in: query
+          description:  "- false: Each match will contain the pub-id and the other properties indexed for that publication (pubDate and docId).(default) \n - true: Each match will contain only the pub-id."
+          required: false
+          type: boolean
+        - name: infos
+          in: query
+          description:  "The comma-separated list of document metadata fields to embed inevery match. This can be used to retrieve information on each publication that matches the query. By default, metadata fields are not embedded. Use infos=all to embed all the metadata fields available."
+          required: false
+          type: string
+        - name: filter
+          in: query
+          description:  "Whether to apply the kind code filtering rules to the results. (Default: true). A set of rules that are applied to the results of 'GET pub-ids' requests. The goal of these rules is to filter the kind codes of the publications returned, depending on the input query. For instance, a rule exists for Japanese publications: sending GET /indexes/pub-ids/entries/JP/123/A* will return JP/123/A* publications, as well as JP/123/K1 if any."
+          required: false
+          type: boolean          
+      tags:
+        - Images
+      responses:
+        200:
+          description: "The response body contains the content of the downloaded subparts"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"            
 
   /images/indexes/pub-ids/entries/{countryCode}/{pubNumber}/{kindCode}:
     get:
       summary: "PUB-IDS: GET PUB-ID ENTRIES FROM SINGLE"
-      description: "Query for a list of indexed publications that match a single pub-id."
+      description: "Query for a list of indexed publications that match a single pub-id with Kind Code."
       produces:
         - application/json
       parameters:
