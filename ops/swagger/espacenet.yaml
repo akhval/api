@@ -766,7 +766,7 @@ paths:
       description: Autocomplete, or word suggest, is a service which returns the rest of a word (prefix) a user is typing. In graphical user interfaces, users can typically press the tab key to accept. E.g. aut  --> auto, autocomplete, automatic,..... Each suggest comes alogn with a frequency information that is extracted from the search index.
       operationId: queryAutoComplete
       tags:
-        - Autocomplete and Semantic Expansion
+        - Search
       parameters:
         - name: text
           in: query
