@@ -4,10 +4,10 @@ swagger: '2.0'
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
-  version: "3.2.7"
+  version: "3.2.9"
 # the domain of the service
 # If host is not specified, it is assumed to be the same host where the API documentation is being served.
-# host: ops-t.internal.epo.org
+host: ops-t.internal.epo.org
 # host: ops-i.epo.org
 # array of all schemes that your API supports
 schemes:
@@ -403,12 +403,6 @@ paths:
           schema:
             $ref: "#/definitions/ErrorResponse"
 
-#
-# "/search/*" section is extracted from the http://ssl-t2.internal.epo.org/v1/swagger/ssl.yaml
-#
-#   "/search/similar/legacy" is commented out because it is blocked in OPS
-#   definition ErrorResponse renamed to searchErrorResponse to resolve conflict with already existing
-#
   /search/highlight:
     x-swagger-router-controller: search
     post:
@@ -652,62 +646,10 @@ paths:
           schema:
             $ref: "#/definitions/searchErrorResponse"
 
-#  /search/similar/legacy:
-#    x-swagger-router-controller: search
-#    post:
-#      description: 'Proxy call for legacy more like this (MLT) search requests. This service accepts ES 1.8 MLT JSON request formats and produces legacy ES 1.8 format responses'
-#      consumes:
-#        - application/json
-#      operationId: similarLegacy
-#      parameters:
-#          - name: search_type
-#            in: query
-#            description: Search type
-#            type: string
-#            required: true
-#            enum:
-#              - count
-#          - name: reqtype
-#            in: query
-#            description: Request type
-#            required: true
-#            type: string
-#            enum:
-#              - MLT
-#          - name: preference
-#            in: query
-#            description: 'Preference '
-#            required: true
-#            type: string
-#          - name: trackID
-#            in: query
-#            description: 'Track ID '
-#            required: true
-#            type: string
-#          - in: body
-#            name: body
-#            required: false
-#            schema:
-#              $ref: '#/definitions/searchSimilarLegacyRequest'
-#      produces:
-#        - application/json
-#
-#      tags:
-#        - Search
-#      responses:
-#        "200":
-#          description: Success
-#          schema:
-#            $ref: "#/definitions/searchResultLegacyResponse"
-#        default:
-#          description: Error
-#          schema:
-#            $ref: "#/definitions/searchErrorResponse"
-
   /search/similar:
     x-swagger-router-controller: search
     post:
-      description: 'Proxy call for more like this (MLT) search'
+      description: 'More like this (MLT) search'
       consumes:
         - application/json
       operationId: similar
@@ -785,6 +727,79 @@ paths:
           description: Success
           schema:
             $ref: "#/definitions/queryAutocompleteResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /search/family/{familyId}/aggregated/biblio:
+    get:
+      description: Returns an aggregated bibliography generated from all biblio information of publications belonging to the specified family. Proxying BSS [see description](http://confluence-p.internal.epo.org/display/BSS/Search+API+service+RESTful+API).
+      operationId: lookupAggregatedBiblioByFamilyId
+      tags:
+        - Search
+      parameters:
+        - $ref: '#/parameters/familyIdParam'
+        - $ref: '#/parameters/applicationFilterParam'
+        - $ref: '#/parameters/citationFieldsParam'
+
+        - name: publicationNumber
+          in: query
+          description: Publication numbers which is part of the specified 'familyId'. E.g. EP3047192A1. If the aggregated biblio service is called for a specific publication inside a family the service also aggregates the forward citations and highlights these according to the given parameter value of 'highlightMarkers'
+          type: string
+          required: false
+          x-example: 'EP3047192A1'
+
+        - name: highlightMarkers
+          in: query
+          description: A list of PQL marker queries that is used to highlight text in the biblio response. Corresponds to multiple highlight markers such as for instance *highlightMarkers=markerQuery1&highlightMarkers=markerQuery2*.
+          required: false
+          collectionFormat: multi
+          type: array
+          items:
+            type: string
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/lookupAggregatedBiblioByFamilyIdResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+    post:
+      description: The same as GET, but markers to be used for highlighting are passed as body.
+      operationId: lookupAggregatedBiblioByFamilyIdPost
+      tags:
+        - Search
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/familyIdParam'
+        - $ref: '#/parameters/applicationFilterParam'
+        - $ref: '#/parameters/citationFieldsParam'
+
+        - name: publicationNumber
+          in: query
+          description: Publication numbers which is part of the specified 'familyId'. E.g. EP3047192A1. If the aggregated biblio service is called for a specific publication inside a family the service also aggregates the forward citations and highlights these according to the given parameter value of 'highlightMarkers'
+          type: string
+          required: false
+          x-example: 'EP3047192A1'
+
+        - name: highlightMarkers
+          in: body
+          description: List of markers
+          required: true
+          schema:
+            $ref: '#/definitions/AggregatedBiblioByFamilyPostBodyExample'
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/lookupAggregatedBiblioByFamilyIdResponse"
         default:
           description: Error
           schema:
