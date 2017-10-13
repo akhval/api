@@ -4,7 +4,7 @@ swagger: '2.0'
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
-  version: "3.2.9"
+  version: "3.2.10"
 # the domain of the service
 # If host is not specified, it is assumed to be the same host where the API documentation is being served.
 host: ops-t.internal.epo.org
@@ -731,7 +731,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-
   /search/family/{familyId}/aggregated/biblio:
     get:
       description: Returns an aggregated bibliography generated from all biblio information of publications belonging to the specified family. Proxying BSS [see description](http://confluence-p.internal.epo.org/display/BSS/Search+API+service+RESTful+API).
@@ -1771,3 +1770,41 @@ definitions:
             score:
               type: number
               format: float
+
+  lookupAggregatedBiblioByFamilyIdResponse:
+    type: object
+    
+  AggregatedBiblioByFamilyPostBodyExample:
+    type: object
+    example: "{ \"mA\":\"signals\", \"mC\":\"fluid\", \"mE\":\"engine\" }"
+    
+# define reusable parameters:
+parameters:              
+  familyIdParam:
+    name: familyId
+    in: path
+    description: Unique identifier for the patent family
+                 E.g. 054937258
+    required: true
+    type: string
+    x-example: 054937258
+    maxLength: 9
+    minLength: 9
+    pattern: "0[0-9]+"
+    
+  applicationFilterParam:
+    name: applicationFilter
+    in: query
+    description: Show only biblio for the specified application number, e.g. US201414290141A
+    required: false
+    type: string
+    
+  citationFieldsParam:
+    name: citationFields
+    in: query
+    description: a list of fields that should be looked up for each citing patent citation and added to the biblio response. Presence of this parameter means that citation resolution step should be taken, and extended citation information should be injected into biblio JSON.
+                 Example values is publications.ti_en,publications.ti_fr,publications.ti_de. See [BSS field specification](http://bss-search-i.internal.epo.org/v1/#fields)
+    type: array
+    items:
+      type: string
+    required: false
