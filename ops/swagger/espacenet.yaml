@@ -4,7 +4,7 @@ swagger: '2.0'
 info:
   title: OPS Espacenet Services API
   description: New Espacenet OPS hosted services
-  version: "3.2.10"
+  version: "3.2.11"
 # the domain of the service
 # If host is not specified, it is assumed to be the same host where the API documentation is being served.
 host: ops-t.internal.epo.org
@@ -16,6 +16,231 @@ schemes:
 # will be prefixed to all paths
 basePath: /3.2/rest-services
 paths:
+  /family/{referenceType}/{countryCode}/{pubNumber}/{kindCode}:
+    get:
+      summary: Retrieve extended family data
+      description: Retrieve extended Inpadoc family data.
+      produces:
+        - application/json
+        - application/xml        
+      parameters:
+        - name: referenceType
+          in: path
+          description: Reference type. Acceptable values are:\n
+                        publication\n
+                        application\n                        
+          required: true
+          type: string
+          enum: [publication,application]         
+        - name: countryCode
+          in: path
+          description: The country code of the reference.
+          required: true
+          type: string
+          format: string
+        - name: pubNumber
+          in: path
+          description: The number of the reference.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the reference.
+          required: true
+          type: string
+          format: string
+      tags:
+        - Family
+      responses:
+        200:
+          description: "The response body contains a family metadata."
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /legal/{referenceType}/{countryCode}/{pubNumber}/{kindCode}:
+    get:
+      summary: Retrieve legal data
+      description: Retrieve legal data.
+      produces:
+        - application/json
+        - application/xml        
+      parameters:
+        - name: referenceType
+          in: path
+          description: Reference type. Acceptable values are:\n
+                        publication\n
+                        application\n                        
+          required: true
+          type: string
+          enum: [publication,application]         
+        - name: countryCode
+          in: path
+          description: The country code of the reference.
+          required: true
+          type: string
+          format: string
+        - name: pubNumber
+          in: path
+          description: The number of the reference.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the reference.
+          required: true
+          type: string
+          format: string
+      tags:
+        - Family
+      responses:
+        200:
+          description: "The response body contains a legal metadata."
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /family/{referenceType}/{countryCode}/{pubNumber}/{kindCode}/legal:
+    get:
+      summary: Retrieve family legal data
+      description: Retrieve family legal data.
+      produces:
+        - application/json
+        - application/xml        
+      parameters:
+        - name: referenceType
+          in: path
+          description: Reference type. Acceptable values are:\n
+                        publication\n
+                        application\n                        
+          required: true
+          type: string
+          enum: [publication,application]         
+        - name: countryCode
+          in: path
+          description: The country code of the reference.
+          required: true
+          type: string
+          format: string
+        - name: pubNumber
+          in: path
+          description: The number of the reference.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the reference.
+          required: true
+          type: string
+          format: string
+      tags:
+        - Family
+      responses:
+        200:
+          description: "The response body contains a legal metadata."
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /claims-tree/{countryCode}/{pubNumber}/{kindCode}:
+    get:
+      summary: Claims Tree service
+      description: The claims tree service retrieves claims for the requested publication number in XML or in another text format, then renders it and returns all the necessary information for drawing a claims tree graph.
+      produces:
+        - application/hal+json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the reference.
+          required: true
+          type: string
+          format: string
+        - name: pubNumber
+          in: path
+          description: The number of the reference.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the reference.
+          required: true
+          type: string
+          format: string
+        - name: locale
+          in: path
+          description: Claims tree locale. Example en_EP
+          required: true
+          type: string
+          format: string
+          
+      tags:
+        - Claims
+      responses:
+        200:
+          description: "The response body contains a claims tree structure"
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+  /links/{countryCode}/{pubNumber}/{kindCode}:
+    get:
+      summary: Link builder service
+      description: Link builder service delivers external to Espacenet links.
+      produces:
+        - application/hal+json
+      parameters:
+        - name: countryCode
+          in: path
+          description: The country code of the reference.
+          required: true
+          type: string
+          format: string
+        - name: pubNumber
+          in: path
+          description: The number of the reference.
+          required: true
+          type: string
+          format: string
+        - name: kindCode
+          in: path
+          description: The kind code of the reference.
+          required: true
+          type: string
+          format: string
+        - name: locale
+          in: path
+          description: Claims tree locale. Example en_EP
+          required: true
+          type: string
+          format: string
+          
+      tags:
+        - Links
+      responses:
+        200:
+          description: "The response body contains list of links extended with metadata"
+          schema:
+            type: string
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
+
   /images/infos/{countryCode}/{pubNumber}/{kindCode}:
     get:
       summary: INFOS GET DOCUMENT METADATA
@@ -368,6 +593,7 @@ paths:
 
   /query/convert:
     get:
+      summary: Converts a query string of type CQL into PQL format.
       description: Converts a query string of type CQL into PQL format.
       produces:
         - application/json
@@ -402,6 +628,138 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+
+  /search:
+    post:
+      summary: Search endpoint with CQL support
+      description: Search endpoint with CQL support
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/markersRequestBody'
+        - name: q
+          in: query
+          description: Search query string
+          required: true
+          type: string
+        - name: qlang
+          in: query
+          description: Input format of the query string.
+          required: false
+          type: string
+          enum: [cql,pql] 
+          default: "cql"
+      produces:
+        - application/json
+
+      tags:
+        - Search
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/searchErrorResponse"  
+  
+    get:
+      description: DEPRECATED Returns search results generated by BSS (Backend Search Services)
+      deprecated: true      
+      tags:
+        - Search
+      parameters:
+        - name: q
+          in: query
+          description: PQL marker query. Corresponds to multiple parameter instances instead of multiple values for a single instance q=markerQuery1&q=markerQuery2.
+          required: true
+          type: array
+          items:
+            type: string
+          collectionFormat: multi
+        - name: maxNbResults
+          in: query
+          description: The number of similar results that should be returend
+          required: false
+          type: number
+          default: 10
+        - name: offset
+          in: query
+          description: The offset from which the results should be returned from. This is required for pagination
+                       E.g. 10
+          required: false
+          type: number
+          default: 0
+        - name: fields
+          in: query
+          description: The name of the fields that should be used to find similar content and that should be contained in the response
+                       E.g. publications.wpi_abs_en,publications.abs_en,publications.ti_en
+          type: array
+          items:
+            type: string
+          required: false
+          default: [publications.wpi_abs_en,publications.abs_en,publications.ti_en]
+        - name: highlight
+          in: query
+          description: The name of fields in which matches should be highlighted
+                       E.g. publications.wpi_abs_en,publications.abs_en,publications.ti_en
+          type: array
+          items:
+            type: string
+          required: false
+          default: [publications.wpi_abs_en,publications.abs_en,publications.ti_en]
+        - name: widgets
+          in: query
+          description: The name of widgets (factes) that should be provided in the response
+                       E.g. buckets,dates,applicant,inventor,cpc,ipc,languages,markers,priorityDate,top-score
+          type: array
+          items:
+            type: string
+          required: false
+
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/searchErrorResponse"
+
+  /search/markers/:
+    x-swagger-router-controller: search
+    post:
+      description: 'Proxy call for markers search'
+      consumes:
+        - application/json
+      operationId: searchMarkers
+      deprecated: true
+      parameters:
+          - in: body
+            name: body
+            required: false
+            schema:
+              $ref: '#/definitions/markersRequest'
+      produces:
+        - application/json
+
+      tags:
+        - Search
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/searchResultResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/searchErrorResponse"
 
   /search/highlight:
     x-swagger-router-controller: search
@@ -485,105 +843,12 @@ paths:
           schema:
             $ref: "#/definitions/searchErrorResponse"
 
-  /search:
-    x-swagger-router-controller: search
-    get:
-      description: TODO (Link Elastic Custer with Connector) to generate the Response Objects Returns search results generated by BSS (Backend Search Services)
-      operationId: searchInElasticCluster
-      tags:
-        - Search
-      parameters:
-        - name: q
-          in: query
-          description: PQL marker query. Corresponds to multiple parameter instances instead of multiple values for a single instance q=markerQuery1&q=markerQuery2.
-          required: true
-          type: array
-          items:
-            type: string
-          collectionFormat: multi
-        - name: maxNbResults
-          in: query
-          description: The number of similar results that should be returend
-          required: false
-          type: number
-          default: 10
-        - name: offset
-          in: query
-          description: The offset from which the results should be returned from. This is required for pagination
-                       E.g. 10
-          required: false
-          type: number
-          default: 0
-        - name: fields
-          in: query
-          description: The name of the fields that should be used to find similar content and that should be contained in the response
-                       E.g. publications.wpi_abs_en,publications.abs_en,publications.ti_en
-          type: array
-          items:
-            type: string
-          required: false
-          default: [publications.wpi_abs_en,publications.abs_en,publications.ti_en]
-        - name: highlight
-          in: query
-          description: The name of fields in which matches should be highlighted
-                       E.g. publications.wpi_abs_en,publications.abs_en,publications.ti_en
-          type: array
-          items:
-            type: string
-          required: false
-          default: [publications.wpi_abs_en,publications.abs_en,publications.ti_en]
-        - name: widgets
-          in: query
-          description: The name of widgets (factes) that should be provided in the response
-                       E.g. buckets,dates,applicant,inventor,cpc,ipc,languages,markers,priorityDate,top-score
-          type: array
-          items:
-            type: string
-          required: false
-
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/searchResultResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/searchErrorResponse"
-
-  /search/markers/:
-    x-swagger-router-controller: search
-    post:
-      description: 'Proxy call for markers search'
-      consumes:
-        - application/json
-      operationId: searchMarkers
-      parameters:
-          - in: body
-            name: body
-            required: false
-            schema:
-              $ref: '#/definitions/markersRequest'
-      produces:
-        - application/json
-
-      tags:
-        - Search
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/searchResultResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/searchErrorResponse"
-
   /search/mlt:
     x-swagger-router-controller: search
     post:
       description: The MoreLikeThis service enables to query for documents similar to a document in the result list index or similar to a text snippet. It does this by using terms from the provided document to find similar documents in the index.
       operationId: moreLikeThis
+      deprecated: true
       tags:
         - Search
       consumes: [
@@ -659,34 +924,6 @@ paths:
             required: false
             schema:
               $ref: '#/definitions/searchSimilarRequest'
-      produces:
-        - application/json
-
-      tags:
-        - Search
-      responses:
-        "200":
-          description: Success
-          schema:
-            $ref: "#/definitions/searchResultResponse"
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/searchErrorResponse"
-
-  /search/figures:
-    x-swagger-router-controller: search
-    post:
-      description: ''
-      consumes:
-        - application/json
-      operationId: searchFigures
-      parameters:
-          - in: body
-            name: body
-            required: false
-            schema:
-              $ref: '#/definitions/figuresRequest'
       produces:
         - application/json
 
@@ -816,7 +1053,6 @@ definitions:
     xml:
       name: fault
 
-#
 # "/search*" section definitions (extracted from the http://ssl-t2.internal.epo.org/v1/swagger/ssl.yaml)
   searchResultResponse:
     type: object
@@ -873,14 +1109,14 @@ definitions:
             mB: markerB
           key: '2'
       url-items:
-        - url: 'http://bss-search-espacenet-t/v1/?test=param'
+        - url: 'http://bss-search-t/v1/?test=param'
           strict: true
           field: publications.ti_en
           markers:
             mA: markerA
             mB: markerB
           key: '3'
-        - url: 'http://bss-search-espacenet-t/v1/?test=param'
+        - url: 'http://bss-search-t/v1/?test=param'
           strict: true
           field: publications.ti_en
           markers:
@@ -1044,7 +1280,7 @@ definitions:
                   - D05-H08B
             fwdcitation0:
               type:
-                "PUB"
+                - PUB
               publications.pn:
                 - US2016122710A1
               datasource:
@@ -1225,7 +1461,7 @@ definitions:
               - D05-H08B
         fwdcitation0:
           type:
-            "PUB"
+            - PUB
           publications.pn:
             - US2016122710A1
           datasource:
@@ -1318,35 +1554,28 @@ definitions:
         description: URL which data should be reolved and highlighted
         type: string
     type: object
-
-  figuresRequest:
+    
+  markersRequestBody:    
     type: object
     example:
       query:
-        markers:
-          mA: Neuron
         highlighting:
-          - field: publications.abs_en
-            fragment_words_number: 20
-            number_of_fragments: 3
+          - field: publications.ti_en
+            fragment_words_number: 50
+            number_of_fragments: 0
             hits_only: true
-        positions:
-          mA:
-            - 'x': 170
-              'y': 84
+        bucket: []
         fields:
           - biblio
+          - publications.pn
           - publications.ti_en
+        dejavu: []
         itemsPerGroup: -1
         size: 10
         from: 0
         minScore: -1
-      widgets:
-        bucket: {}
-        applicant:
-          size: '30'
-          weighted: 'false'
-      filters: {}
+      widgets: {}
+      filters: {}    
 
   markersRequest:
     type: object
